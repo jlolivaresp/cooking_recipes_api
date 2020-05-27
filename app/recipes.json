@@ -1,0 +1,50 @@
+{
+  "ingredients": {
+    "tomato": {
+      "dimension": "u"
+    },
+    "onion": {
+      "dimension": "u"
+    }
+  },
+  "recipes": {
+    "Quiche": {
+      "link": "",
+      "ingredients": {
+        "onion": 1,
+        "garlic": 4,
+        "leek": 1,
+        "mushrooms": 20,
+        "corn": 0.5,
+        "sausage": 2,
+        "tofu": 1,
+        "broccoli": 0.5,
+        "zucchini": 0.5,
+        "bell pepper": 0.5
+      }
+    },
+    "Pizza": {
+      "link": "",
+      "ingredients": {
+        "onion": 0.5,
+        "mushrooms": 100,
+        "corn": 0.5,
+        "sausage": 3,
+        "broccoli": 0.2,
+        "zucchini": 0.3,
+        "bell pepper": 0.5,
+        "mozzarella": 2,
+        "black olives": 0.1,
+        "pizza": 3
+      }
+    },
+    "Arepas": {
+      "link": "",
+      "ingredients": {
+        "harina_pan": 0.2,
+        "balkan kaese": 1
+      }
+    }
+  }
+}
+

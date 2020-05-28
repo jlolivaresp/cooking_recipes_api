@@ -3,9 +3,9 @@ from app import app
 from app.service import firebase
 
 
-@app.errorhandler(404)
-def not_found_error(error):
-    return render_template('404.html'), 404
+# @app.errorhandler(404)
+# def not_found_error(error):
+#     return render_template('404.html'), 404
 
 #
 # @app.errorhandler(500)

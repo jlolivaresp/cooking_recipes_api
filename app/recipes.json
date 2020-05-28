@@ -8,7 +8,8 @@
     }
   },
   "recipes": {
-    "Quiche": {
+    "recipe_0001": {
+      "name": "quiche",
       "link": "",
       "ingredients": {
         "onion": 1,
@@ -20,10 +21,11 @@
         "tofu": 1,
         "broccoli": 0.5,
         "zucchini": 0.5,
-        "bell pepper": 0.5
+        "bell_pepper": 0.5
       }
     },
-    "Pizza": {
+    "recipe_0002": {
+      "name": "pizza",
       "link": "",
       "ingredients": {
         "onion": 0.5,
@@ -34,15 +36,16 @@
         "zucchini": 0.3,
         "bell pepper": 0.5,
         "mozzarella": 2,
-        "black olives": 0.1,
+        "black_olives": 0.1,
         "pizza": 3
       }
     },
-    "Arepas": {
+    "recipe_0003": {
+      "name": "arepa",
       "link": "",
       "ingredients": {
         "harina_pan": 0.2,
-        "balkan kaese": 1
+        "balkan_kaese": 1
       }
     }
   }

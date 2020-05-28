@@ -23,6 +23,11 @@ class Recipe:
             raise NameError('The element already exists in the database')
 
     @staticmethod
+    def set_multiple_nodes(nodes_dict: dict):
+        db.get_reference(RECIPE_ALL_REF).set(nodes_dict)
+        return
+
+    @staticmethod
     def delete_recipe(name: str):
         recipe_ref = db.get_reference(RECIPE_REF.format(name))
         recipe_ref.delete()

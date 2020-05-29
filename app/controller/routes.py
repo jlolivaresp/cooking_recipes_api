@@ -21,7 +21,7 @@ def index():
 
 @app.route('/ingredients/get/all', methods=['GET'])
 def get_all_ingredients():
-    return ingredient.get_all_ingredients()
+    return jsonify(ingredient.get_all_ingredients())
 
 
 @app.route('/ingredients/get/single', methods=['POST'])
@@ -32,7 +32,7 @@ def get_ingredient():
             name = request.get_json().get("name")
             return ingredient.get_ingredient(name)
         except ValidationError as e:
-            return e.message
+            return jsonify(e.message)
 
 
 @app.route('/ingredients/post/single', methods=['POST'])
@@ -43,7 +43,7 @@ def add_ingredient():
             ingredient.add_ingredient(request.get_json())
             return request.get_json()
     except ValidationError as e:
-        return e.message
+        return jsonify(e.message)
 
 
 @app.route('/ingredients/delete/single', methods=['POST'])
@@ -55,12 +55,12 @@ def delete_ingredient():
             ingredient.delete_ingredient(name)
             return request.get_json()
         except ValidationError as e:
-            return e.message
+            return jsonify(e.message)
 
 
 @app.route('/recipes/get/all', methods=['GET'])
 def get_all_recipes():
-    return recipe.get_all_recipes()
+    return jsonify(recipe.get_all_recipes())
 
 
 @app.route('/recipes/get/single/', methods=['POST'])
@@ -71,7 +71,7 @@ def get_recipe():
             name = request.get_json("name")
             return recipe.get_recipe(name)
         except ValidationError as e:
-            return e.message
+            return jsonify(e.message)
 
 
 @app.route('/recipes/post/single', methods=['POST'])
@@ -83,7 +83,7 @@ def add_recipe():
                 schema.add_recipe_request_schema(req_json)
                 recipe.add_recipe(req_json)
             except ValidationError as e:
-                return e
+                return jsonify(e)
 
             # Add the missing ingredients to the ingredients node
             for ing in req_json.get(*req_json).get(INGREDIENTS_NAME_FORMAT):
@@ -99,7 +99,7 @@ def add_recipe():
                     return e
                 except ValidationError as e:
                     return e.message
-            return req_json
+            return jsonify(req_json)
         else:
             # TODO fix return | return valid view if method not POST
             return ""
@@ -114,7 +114,7 @@ def delete_recipe():
             recipe.delete_recipe(name)
             return request.get_json()
         except ValidationError as e:
-            return e.message
+            return jsonify(e.message)
 
 
 @app.route('/ingredients/summarize/recipes/', methods=['POST'])
@@ -126,7 +126,7 @@ def summarize_selected_recipes_ingredients():
             selected_recipe = {name: recipe.get_recipe(name)}
             recipe_sub_dict = dict(**recipe_sub_dict, **selected_recipe)
 
-        return _dict_counter(recipe_sub_dict, "ingredients")
+        return jsonify(_dict_counter(recipe_sub_dict, "ingredients"))
 
 
 @app.route('/recipes/add/from_local/ods', methods=['POST'])
@@ -156,4 +156,4 @@ def add_recipes_from_local_ods():
                 except ValidationError as e:
                     return e.message
 
-            return recipes_dict
+            return jsonify(recipes_dict)

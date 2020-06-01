@@ -16,7 +16,7 @@ schema = Schema()
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Groceries Project"
+    return jsonify("Groceries Project")
 
 
 @app.route('/ingredients/get/all', methods=['GET'])
@@ -152,8 +152,7 @@ def add_recipes_from_local_ods():
                     schema.add_ingredient_request_schema(ing_dict)
                     ingredient.add_ingredient(ing_dict)
                 except NameError as e:
-                    return e
+                    return jsonify(e.__str__())
                 except ValidationError as e:
-                    return e.message
-
-            return jsonify(recipes_dict)
+                    return jsonify(e.message)
+        return jsonify(recipes_dict)

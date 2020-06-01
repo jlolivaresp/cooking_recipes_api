@@ -22,8 +22,12 @@ def ods_parser(path: str, sheet_name: str):
     for recipe in recipe_dict:
         for ingredient_list in data_list[1:]:
             try:
-                recipe_dict[recipe][INGREDIENTS_NAME_FORMAT][ingredient_list[0]] = ingredient_list[j]
+                if isinstance(ingredient_list[j], int) or isinstance(ingredient_list[j], float):
+                    recipe_dict[recipe][INGREDIENTS_NAME_FORMAT][ingredient_list[0]] = ingredient_list[j]
             except Exception as e:
                 pass
         j += 1
     return recipe_dict
+
+
+print(ods_parser("/home/jorge/Downloads/db.ods", "Sheet2"))

@@ -5,7 +5,7 @@ from app.contants import UNIT_DEFAULT_NAME, INGREDIENTS_NAME_FORMAT
 
 class Schema:
     @staticmethod
-    def get_delete_node_request_schema(json):
+    def get_delete_node_request_schema(json: dict):
         schema = {
             "type": "object",
             "properties": {
@@ -15,7 +15,7 @@ class Schema:
         return validate(json, schema)
 
     @staticmethod
-    def add_ingredient_request_schema(json):
+    def add_ingredient_request_schema(json: dict):
         schema = {
             "type": "object",
             "patternProperties": {
@@ -32,7 +32,7 @@ class Schema:
         return validate(json, schema)
 
     @staticmethod
-    def add_recipe_request_schema(json):
+    def add_recipe_request_schema(json: dict):
         schema = {
             "type": "object",
             "patternProperties": {
@@ -55,5 +55,18 @@ class Schema:
                 }
             }
         }
-        validate(json, schema)
+        return validate(json, schema)
+
+    @staticmethod
+    def summarize_selected_recipes_ingredients(json: dict):
+        schema = {
+            "type": "object",
+            "properties": {
+                "recipe_list": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                }
+            }
+        }
+        return validate(json, schema)
 

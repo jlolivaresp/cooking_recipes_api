@@ -148,11 +148,16 @@ def summarize_selected_recipes_ingredients():
     recipe_sub_dict = dict()
 
     if request.method == 'POST':
-        for name in request.get_json().get("recipe_list"):
-            selected_recipe = dict(name=recipe.get_recipe(name))
-            recipe_sub_dict = dict(**recipe_sub_dict, **selected_recipe)
+        try:
+            schema.summarize_selected_recipes_ingredients(request.get_json())
+            for name in request.get_json().get("recipe_list"):
+                selected_recipe = dict(name=recipe.get_recipe(name))
+                recipe_sub_dict = dict(**recipe_sub_dict, **selected_recipe)
 
-        return jsonify(_dict_counter(recipe_sub_dict, "ingredients"))
+            return jsonify(_dict_counter(recipe_sub_dict, "ingredients"))
+
+        except ValidationError as e:
+            return jsonify(e.message)
 
 
 @app.route('/recipes/post/from_local/ods', methods=['POST'])

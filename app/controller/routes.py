@@ -4,8 +4,9 @@ from jsonschema import ValidationError
 from app import app
 from app.contants import INGREDIENTS_NAME_FORMAT, UNIT_DEFAULT_NAME, UNIT_DEFAULT_VALUE
 from app.controller.schema_validations import Schema
-from app.model.ingredients import Ingredient
-from app.model.recipes import Recipe
+from app.model.ingredient import Ingredient
+from app.model.recipe import Recipe
+from app.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError
 from app.utils import _dict_counter, ods_parser
 
 ingredient = Ingredient()
@@ -30,9 +31,13 @@ def get_ingredient():
         try:
             schema.get_delete_node_request_schema(request.get_json())
             name = request.get_json().get("name")
-            return ingredient.get_ingredient(name)
+            return jsonify(ingredient.get_ingredient(name))
+
         except ValidationError as e:
             return jsonify(e.message)
+
+        except ReferenceNotFoundException as e:
+            return jsonify(e.error_dict)
 
 
 @app.route('/ingredients/post/single', methods=['POST'])
@@ -40,10 +45,13 @@ def add_ingredient():
     try:
         if request.method == 'POST':
             schema.add_ingredient_request_schema(request.get_json())
-            ingredient.add_ingredient(request.get_json())
-            return request.get_json()
+            return ingredient.add_ingredient(request.get_json())
+
     except ValidationError as e:
         return jsonify(e.message)
+
+    except ElementAlreadyExistsError as e:
+        return jsonify(e.error_dict)
 
 
 @app.route('/ingredients/delete/single', methods=['POST'])
@@ -52,10 +60,13 @@ def delete_ingredient():
         try:
             schema.get_delete_node_request_schema(request.get_json())
             name = request.get_json().get("name")
-            ingredient.delete_ingredient(name)
-            return request.get_json()
+            return jsonify(ingredient.delete_ingredient(name))
+
         except ValidationError as e:
             return jsonify(e.message)
+
+        except ElementAlreadyExistsError as e:
+            return jsonify(e.error_dict)
 
 
 @app.route('/recipes/get/all', methods=['GET'])
@@ -68,10 +79,14 @@ def get_recipe():
     if request.method == 'POST':
         try:
             schema.get_delete_node_request_schema(request.get_json())
-            name = request.get_json("name")
-            return recipe.get_recipe(name)
+            name = request.get_json().get("name")
+            return jsonify(recipe.get_recipe(name))
+
         except ValidationError as e:
             return jsonify(e.message)
+
+        except ReferenceNotFoundException as e:
+            return jsonify(e.error_dict)
 
 
 @app.route('/recipes/post/single', methods=['POST'])
@@ -81,25 +96,28 @@ def add_recipe():
         if len(req_json) == 1:
             try:
                 schema.add_recipe_request_schema(req_json)
-                recipe.add_recipe(req_json)
-            except ValidationError as e:
-                return jsonify(e)
 
-            # Add the missing ingredients to the ingredients node
-            for ing in req_json.get(*req_json).get(INGREDIENTS_NAME_FORMAT):
-                try:
+                # Add the missing ingredients to the ingredients node
+                for ing in req_json.get(*req_json).get(INGREDIENTS_NAME_FORMAT):
                     ing_dict = {
                         ing: {
                             UNIT_DEFAULT_NAME: UNIT_DEFAULT_VALUE
                         }
                     }
                     schema.add_ingredient_request_schema(ing_dict)
-                    ingredient.add_ingredient(ing_dict)
-                except NameError as e:
-                    return e
-                except ValidationError as e:
-                    return e.message
-            return jsonify(req_json)
+                    try:
+                        ingredient.add_ingredient(ing_dict)
+                    except ElementAlreadyExistsError as e:
+                        continue
+
+                return jsonify(recipe.add_recipe(req_json))
+
+            except ValidationError as e:
+                return jsonify(e)
+
+            except ElementAlreadyExistsError as e:
+                return jsonify(e.error_dict)
+
         else:
             # TODO fix return | return valid view if method not POST
             return ""
@@ -111,10 +129,16 @@ def delete_recipe():
         try:
             schema.get_delete_node_request_schema(request.get_json())
             name = request.get_json().get("name")
-            recipe.delete_recipe(name)
-            return request.get_json()
+
+            return jsonify(recipe.delete_recipe(name))
+
         except ValidationError as e:
             return jsonify(e.message)
+
+        except ReferenceNotFoundException as e:
+            return jsonify(e.error_dict)
+
+####################################################################
 
 
 @app.route('/ingredients/summarize/recipes/', methods=['POST'])
@@ -137,7 +161,7 @@ def add_recipes_from_local_ods():
         path = req_json.get("path")
         sheet_name = req_json.get("sheet")
         recipes_dict = ods_parser(path, sheet_name)
-        recipe.set_multiple_nodes(recipes_dict)
+        recipe.add_multiple_recipes(recipes_dict)
 
         # Add the missing ingredients to the ingredients node
         for rec in recipes_dict:
@@ -152,7 +176,7 @@ def add_recipes_from_local_ods():
                     schema.add_ingredient_request_schema(ing_dict)
                     ingredient.add_ingredient(ing_dict)
                 except NameError as e:
-                    return jsonify(e.__str__())
+                    print(e.__str__())
                 except ValidationError as e:
                     return jsonify(e.message)
         return jsonify(recipes_dict)

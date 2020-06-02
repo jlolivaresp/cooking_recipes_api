@@ -1,6 +1,5 @@
 import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
+from firebase_admin import credentials, db, exceptions
 
 
 class Firebase:
@@ -22,11 +21,78 @@ class Firebase:
             Firebase.instance.val = arg
 
     @staticmethod
-    def get_reference(reference: str):
-        """
+    def _reference(reference: str):
+        return db.reference(reference)
 
-        :param reference:
+    def _reference_string(self, reference: str):
+        return self._reference(reference).get()
+
+    def get(self, reference: str):
+        ref_str = self._reference_string(reference)
+        if not ref_str:
+            raise ReferenceNotFoundException
+        else:
+            return ref_str
+
+    def add(self, reference: str, node_dict: dict):
+        ref_str = self._reference_string(reference)
+        if not ref_str:
+            raise ReferenceNotFoundException
+        else:
+            # Check if the node already exists in the <reference> node
+            child_str = self._reference(reference).child(*node_dict).get()
+            if not child_str:
+                self._reference(reference).update(node_dict)
+            else:
+                raise ElementAlreadyExistsError
+
+    def update(self, reference: str, node_dict: dict):
+        ref_str = self._reference(reference).child(*node_dict).get()
+        if not ref_str:
+            raise ReferenceNotFoundException
+        else:
+            self._reference(reference).update(node_dict)
+
+    def set(self, reference: str, node_dict: dict):
+        """
+        Overwrites everything inside the <reference> node with <node_dict>.
+
+        :param reference: [str]
+        :param node_dict: [str]
         :return:
         """
-        ref = db.reference(reference)
-        return ref
+
+        ref_str = self._reference_string(reference)
+        if not ref_str:
+            raise ReferenceNotFoundException
+        else:
+            self._reference(reference).set(node_dict)
+
+    def delete(self, reference: str):
+        ref_str = self._reference_string(reference)
+        if not ref_str:
+            raise ReferenceNotFoundException
+        else:
+            self._reference(reference).delete()
+
+
+class ReferenceNotFoundException(Exception):
+    def __init__(self, message="Reference not found in the data base"):
+        self.code = 400
+        self.message = message
+        self.error_dict = {
+            "code": self.code,
+            "message": self.message
+        }
+        super().__init__(self.message)
+
+
+class ElementAlreadyExistsError(Exception):
+    def __init__(self, message="The element already exists in the database"):
+        self.code = 200
+        self.message = message
+        self.error_dict = {
+            "code": self.code,
+            "message": self.message
+        }
+        super().__init__(self.message)

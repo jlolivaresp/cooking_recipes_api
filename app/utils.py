@@ -28,6 +28,3 @@ def ods_parser(path: str, sheet_name: str):
                 pass
         j += 1
     return recipe_dict
-
-
-print(ods_parser("/home/jorge/Downloads/db.ods", "Sheet2"))

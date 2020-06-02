@@ -19,12 +19,10 @@ class Recipe:
         db.add(RECIPE_ALL_REF, recipe_dict)
         return recipe_dict
 
-    @staticmethod
-    def add_multiple_recipes(recipes_dict: dict):
-        # TODO check if this works
-        for recipe in recipes_dict:
-            db.add(RECIPE_ALL_REF, recipe)
-            return recipes_dict
+    def add_multiple_recipes(self, recipes_dict: dict):
+        for recipe, ingredients in recipes_dict.items():
+            self.add_recipe({recipe: ingredients})
+        return recipes_dict
 
     @staticmethod
     def replace_recipe(recipe_dict: dict):

@@ -90,9 +90,13 @@ def get_recipe():
 
 
 @app.route('/recipes/post/single', methods=['POST'])
-def add_recipe():
+def add_recipe(recipes_dict: dict = None):
     if request.method == 'POST':
-        req_json = request.get_json()
+        if recipes_dict:
+            req_json = recipes_dict
+        else:
+            req_json = request.get_json()
+
         if len(req_json) == 1:
             try:
                 schema.add_recipe_request_schema(req_json)
@@ -138,22 +142,20 @@ def delete_recipe():
         except ReferenceNotFoundException as e:
             return jsonify(e.error_dict)
 
-####################################################################
 
-
-@app.route('/ingredients/summarize/recipes/', methods=['POST'])
+@app.route('/recipes/get/ingredients/summary', methods=['POST'])
 def summarize_selected_recipes_ingredients():
     recipe_sub_dict = dict()
 
     if request.method == 'POST':
         for name in request.get_json().get("recipe_list"):
-            selected_recipe = {name: recipe.get_recipe(name)}
+            selected_recipe = dict(name=recipe.get_recipe(name))
             recipe_sub_dict = dict(**recipe_sub_dict, **selected_recipe)
 
         return jsonify(_dict_counter(recipe_sub_dict, "ingredients"))
 
 
-@app.route('/recipes/add/from_local/ods', methods=['POST'])
+@app.route('/recipes/post/from_local/ods', methods=['POST'])
 def add_recipes_from_local_ods():
     if request.method == 'POST':
         req_json = request.get_json()
@@ -161,22 +163,8 @@ def add_recipes_from_local_ods():
         path = req_json.get("path")
         sheet_name = req_json.get("sheet")
         recipes_dict = ods_parser(path, sheet_name)
-        recipe.add_multiple_recipes(recipes_dict)
 
-        # Add the missing ingredients to the ingredients node
-        for rec in recipes_dict:
-            # TODO this is gonna overwrite the unit value of every ingredient. Fix this
-            for ing in recipes_dict.get(rec).get(INGREDIENTS_NAME_FORMAT):
-                ing_dict = {
-                    ing: {
-                        UNIT_DEFAULT_NAME: UNIT_DEFAULT_VALUE
-                    }
-                }
-                try:
-                    schema.add_ingredient_request_schema(ing_dict)
-                    ingredient.add_ingredient(ing_dict)
-                except NameError as e:
-                    print(e.__str__())
-                except ValidationError as e:
-                    return jsonify(e.message)
+        for key, value in recipes_dict.items():
+            add_recipe({key: value})
+
         return jsonify(recipes_dict)

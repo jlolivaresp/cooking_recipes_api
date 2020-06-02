@@ -19,11 +19,9 @@ class Ingredient:
         db.add(INGREDIENT_ALL_REF, ingredient_dict)
         return ingredient_dict
 
-    @staticmethod
-    def add_multiple_ingredients(ingredients_dict: dict):
-        # TODO check if this works
-        for recipe in ingredients_dict:
-            db.add(INGREDIENT_ALL_REF, recipe)
+    def add_multiple_ingredients(self, ingredients_dict: dict):
+        for ingredient, unit in ingredients_dict.items():
+            self.add_ingredient({ingredient: unit})
             return ingredients_dict
 
     @staticmethod

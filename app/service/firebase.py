@@ -35,16 +35,12 @@ class Firebase:
             return ref_str
 
     def add(self, reference: str, node_dict: dict):
-        ref_str = self._reference_string(reference)
-        if not ref_str:
-            raise ReferenceNotFoundException
+        # Check if the node already exists in the <reference> node
+        child_str = self._reference(reference).child(*node_dict).get()
+        if not child_str:
+            self._reference(reference).update(node_dict)
         else:
-            # Check if the node already exists in the <reference> node
-            child_str = self._reference(reference).child(*node_dict).get()
-            if not child_str:
-                self._reference(reference).update(node_dict)
-            else:
-                raise ElementAlreadyExistsError
+            raise ElementAlreadyExistsError
 
     def update(self, reference: str, node_dict: dict):
         ref_str = self._reference(reference).child(*node_dict).get()
@@ -62,11 +58,12 @@ class Firebase:
         :return:
         """
 
-        ref_str = self._reference_string(reference)
-        if not ref_str:
-            raise ReferenceNotFoundException
-        else:
-            self._reference(reference).set(node_dict)
+        # ref_str = self._reference_string(reference)
+        # if not ref_str:
+        #     raise ReferenceNotFoundException
+        # else:
+        #     self._reference(reference).set(node_dict)
+        self._reference(reference).set(node_dict)
 
     def delete(self, reference: str):
         ref_str = self._reference_string(reference)

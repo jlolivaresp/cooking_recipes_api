@@ -7,7 +7,7 @@ from app.controller.schema_validations import Schema
 from app.model.ingredient import Ingredient
 from app.model.recipe import Recipe
 from app.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError
-from app.utils import _dict_counter, ods_parser
+from app.utils import _dict_counter, ods_to_dict
 
 ingredient = Ingredient()
 recipe = Recipe()
@@ -26,11 +26,15 @@ def get_all_ingredients():
 
 
 @app.route('/ingredients/get/single', methods=['POST'])
-def get_ingredient():
+def get_ingredient(_name: str = None):
     if request.method == 'POST':
         try:
+            if _name:
+                name = _name
+            else:
+                name = request.get_json().get("name")
+
             schema.get_delete_node_request_schema(request.get_json())
-            name = request.get_json().get("name")
             return jsonify(ingredient.get_ingredient(name))
 
         except ValidationError as e:
@@ -41,11 +45,15 @@ def get_ingredient():
 
 
 @app.route('/ingredients/post/single', methods=['POST'])
-def add_ingredient():
+def add_ingredient(ingredients_dict: dict = None):
     try:
+        if ingredients_dict:
+            req_json = ingredients_dict
+        else:
+            req_json = request.get_json()
         if request.method == 'POST':
-            schema.add_ingredient_request_schema(request.get_json())
-            return ingredient.add_ingredient(request.get_json())
+            schema.add_ingredient_request_schema(req_json)
+            return ingredient.add_ingredient(req_json)
 
     except ValidationError as e:
         return jsonify(e.message)
@@ -90,7 +98,7 @@ def get_recipe():
 
 
 @app.route('/recipes/post/single', methods=['POST'])
-def add_recipe(recipes_dict: dict = None):
+def add_recipe(recipes_dict: dict = None, add_ingredients: bool = True):
     if request.method == 'POST':
         if recipes_dict:
             req_json = recipes_dict
@@ -102,17 +110,18 @@ def add_recipe(recipes_dict: dict = None):
                 schema.add_recipe_request_schema(req_json)
 
                 # Add the missing ingredients to the ingredients node
-                for ing in req_json.get(*req_json).get(INGREDIENTS_NAME_FORMAT):
-                    ing_dict = {
-                        ing: {
-                            UNIT_DEFAULT_NAME: UNIT_DEFAULT_VALUE
+                if add_ingredients:
+                    for ing in req_json.get(*req_json).get(INGREDIENTS_NAME_FORMAT):
+                        ing_dict = {
+                            ing: {
+                                UNIT_DEFAULT_NAME: UNIT_DEFAULT_VALUE
+                            }
                         }
-                    }
-                    schema.add_ingredient_request_schema(ing_dict)
-                    try:
-                        ingredient.add_ingredient(ing_dict)
-                    except ElementAlreadyExistsError as e:
-                        continue
+                        schema.add_ingredient_request_schema(ing_dict)
+                        try:
+                            ingredient.add_ingredient(ing_dict)
+                        except ElementAlreadyExistsError as e:
+                            continue
 
                 return jsonify(recipe.add_recipe(req_json))
 
@@ -151,10 +160,17 @@ def summarize_selected_recipes_ingredients():
         try:
             schema.summarize_selected_recipes_ingredients(request.get_json())
             for name in request.get_json().get("recipe_list"):
-                selected_recipe = dict(name=recipe.get_recipe(name))
+                selected_recipe = {name: recipe.get_recipe(name)}
                 recipe_sub_dict = dict(**recipe_sub_dict, **selected_recipe)
 
-            return jsonify(_dict_counter(recipe_sub_dict, "ingredients"))
+            ingredients_summary_dict = _dict_counter(recipe_sub_dict, "ingredients")
+
+            for ing in ingredients_summary_dict:
+                # ing_json = {ing: get_ingredient(ing).get_json()}
+                ingredients_summary_dict[ing] = str(ingredients_summary_dict.get(ing)) \
+                                                + " {}".format(get_ingredient(ing).get_json().get("dimension"))
+
+            return jsonify(ingredients_summary_dict)
 
         except ValidationError as e:
             return jsonify(e.message)
@@ -166,10 +182,12 @@ def add_recipes_from_local_ods():
         req_json = request.get_json()
 
         path = req_json.get("path")
-        sheet_name = req_json.get("sheet")
-        recipes_dict = ods_parser(path, sheet_name)
+        recipes_dict, ingredients_dict = ods_to_dict(path)
 
         for key, value in recipes_dict.items():
             add_recipe({key: value})
 
-        return jsonify(recipes_dict)
+        for key, value in ingredients_dict.items():
+            add_ingredient({key: value})
+
+        return jsonify(recipes_dict, ingredients_dict)

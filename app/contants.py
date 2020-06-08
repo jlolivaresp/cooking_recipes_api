@@ -4,6 +4,6 @@ INGREDIENTS_NAME_FORMAT = "ingredients"
 UNIT_DEFAULT_NAME = "dimension"
 UNIT_DEFAULT_VALUE = "u"
 
-RECIPES_SHEET_NAME = "recipes"
+RECIPES_SHEET_NAME = "recipes_2"
 INGREDIENTS_SHEET_NAME = "ingredients_details"
-RECIPES_DETAILS = "recipes_details"
+RECIPES_DETAILS = "recipes_details_2"

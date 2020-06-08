@@ -5,24 +5,25 @@ db = firebase.Firebase('firebase')
 
 
 class Recipe:
+    def __init__(self, name: str = None, description: str = None, link: str = None):
+        self.name = name
+        self.description = description
+        self.link = link
+
+        self.attribute_dict = dict(name=self.name, description=self.description, link=self.link)
 
     @staticmethod
     def get_all_recipes():
         return db.get(RECIPE_ALL_REF)
 
     @staticmethod
-    def get_recipe(name: str):
-        return db.get(RECIPE_REF.format(name))
+    def get_recipe(recipe_id: str):
+        return db.get(RECIPE_REF.format(recipe_id))
 
     @staticmethod
     def add_recipe(recipe_dict: dict):
         db.add(RECIPE_ALL_REF, recipe_dict)
         return recipe_dict
-
-    def add_multiple_recipes(self, recipes_dict: dict):
-        for recipe, ingredients in recipes_dict.items():
-            self.add_recipe({recipe: ingredients})
-        return recipes_dict
 
     @staticmethod
     def replace_recipe(recipe_dict: dict):
@@ -35,7 +36,7 @@ class Recipe:
         return recipe_dict
 
     @staticmethod
-    def delete_recipe(name: str):
+    def delete_recipe(recipe_id: str):
         # TODO Verify this works
-        db.delete(RECIPE_REF.format(name))
-        return name
+        db.delete(RECIPE_REF.format(recipe_id))
+        return recipe_id

@@ -69,3 +69,7 @@ def merge_dicts(a, b, path=None):
         else:
             a[key] = b[key]
     return a
+
+
+def string_formatter(string: str):
+    return '_'.join(string.lower().split(' '))

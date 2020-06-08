@@ -35,18 +35,13 @@ class Firebase:
             return ref_str
 
     def add(self, reference: str, node_dict: dict):
-        # Check if the node already exists in the <reference> node
-        child_str = self._reference(reference).child(*node_dict).get()
-        if not child_str:
-            self._reference(reference).update(node_dict)
-        else:
-            raise ElementAlreadyExistsError
+        return self._reference(reference).push(node_dict)
 
     def update(self, reference: str, node_dict: dict):
-        ref_str = self._reference(reference).child(*node_dict).get()
-        if not ref_str:
-            raise ReferenceNotFoundException
-        else:
+        for child in node_dict:
+            ref_str = self._reference(reference).child(child).get()
+            if not ref_str:
+                raise ReferenceNotFoundException
             self._reference(reference).update(node_dict)
 
     def set(self, reference: str, node_dict: dict):
@@ -57,20 +52,28 @@ class Firebase:
         :param node_dict: [str]
         :return:
         """
-
-        # ref_str = self._reference_string(reference)
-        # if not ref_str:
-        #     raise ReferenceNotFoundException
-        # else:
-        #     self._reference(reference).set(node_dict)
-        self._reference(reference).set(node_dict)
+        ref_str = self._reference(reference).child(*node_dict).get()
+        if not ref_str:
+            raise ReferenceNotFoundException
+        else:
+            self._reference(reference).set(node_dict)
 
     def delete(self, reference: str):
+        # TODO Check this works
         ref_str = self._reference_string(reference)
         if not ref_str:
             raise ReferenceNotFoundException
         else:
             self._reference(reference).delete()
+
+
+def update_node_array_formatter(node_id: str, old: dict, new: dict):
+    formatted_dict = dict()
+    for key, value in new.items():
+        new_value = list(set(old.get(key) + value))
+        formatted_dict = dict(**formatted_dict,
+                              **{'{}/{}'.format(node_id, key): new_value})
+    return formatted_dict
 
 
 class ReferenceNotFoundException(Exception):

@@ -5,24 +5,25 @@ db = firebase.Firebase('firebase')
 
 
 class Ingredient:
+    def __init__(self, name: str = None, category: str = None, supermarket: str = None):
+        self.name = name
+        self.category = category
+        self.supermarket = supermarket
+
+        self.attribute_dict = dict(name=self.name, category=self.category, supermarket=self.supermarket)
 
     @staticmethod
     def get_all_ingredients():
         return db.get(INGREDIENT_ALL_REF)
 
     @staticmethod
-    def get_ingredient(name: str):
-        return db.get(INGREDIENT_REF.format(name))
+    def get_ingredient(ingredient_id: str):
+        return db.get(INGREDIENT_REF.format(ingredient_id))
 
     @staticmethod
     def add_ingredient(ingredient_dict: dict):
-        db.add(INGREDIENT_ALL_REF, ingredient_dict)
-        return ingredient_dict
-
-    def add_multiple_ingredients(self, ingredients_dict: dict):
-        for ingredient, unit in ingredients_dict.items():
-            self.add_ingredient({ingredient: unit})
-            return ingredients_dict
+        new_post_ref = db.add(INGREDIENT_ALL_REF, ingredient_dict)
+        return {new_post_ref.key: ingredient_dict}
 
     @staticmethod
     def replace_ingredient(ingredient_dict: dict):
@@ -35,9 +36,9 @@ class Ingredient:
         return ingredient_dict
 
     @staticmethod
-    def delete_ingredient(name: str):
-        db.delete(INGREDIENT_REF.format(name))
-        return name
+    def delete_ingredient(ingredient_id: str):
+        db.delete(INGREDIENT_REF.format(ingredient_id))
+        return ingredient_id
 
 
 

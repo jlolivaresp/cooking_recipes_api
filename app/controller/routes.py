@@ -36,7 +36,7 @@ def get_all_ingredients():
         return jsonify(e.error_dict)
 
 
-@app.route('/ingredients/single', methods=['POST', 'GET'])
+@app.route('/ingredients/get', methods=['POST', 'GET'])
 def get_ingredient(_ingredient_id: str = None):
     if _ingredient_id:
         ingredient_id = _ingredient_id
@@ -58,7 +58,7 @@ def get_ingredient(_ingredient_id: str = None):
         return jsonify(e.error_dict)
 
 
-@app.route('/ingredients/post/new', methods=['POST'])
+@app.route('/ingredients/add', methods=['POST'])
 def add_ingredient(ingredients_dict: dict = None):
     try:
         if ingredients_dict:
@@ -77,7 +77,7 @@ def add_ingredient(ingredients_dict: dict = None):
         return jsonify(e.error_dict)
 
 
-@app.route('/ingredients/post/update', methods=['POST'])
+@app.route('/ingredients/update', methods=['PUT'])
 def update_ingredient(ingredients_dict: dict = None):
     try:
         if ingredients_dict:
@@ -97,9 +97,9 @@ def update_ingredient(ingredients_dict: dict = None):
         return jsonify(e.error_dict)
 
 
-@app.route('/ingredients/delete/single', methods=['POST'])
+@app.route('/ingredients/delete', methods=['DELETE'])
 def delete_ingredient():
-    if request.method == 'POST':
+    if request.method == 'DELETE':
         try:
             model_schema.get_delete_node_request_schema(request.get_json())
             ingredient_id = request.get_json().get("id")
@@ -112,7 +112,7 @@ def delete_ingredient():
             return jsonify(e.error_dict)
 
 
-@app.route('/recipes/get/all', methods=['GET'])
+@app.route('/recipes/get', methods=['GET'])
 def get_all_recipes():
     try:
         return jsonify(recipe.get_all_recipes())
@@ -120,7 +120,7 @@ def get_all_recipes():
         return jsonify(e.error_dict)
 
 
-@app.route('/recipes/get/single/', methods=['POST', 'GET'])
+@app.route('/recipes/get', methods=['POST', 'GET'])
 def get_recipe(_recipe_id: str = None):
     if _recipe_id:
         recipe_id = _recipe_id
@@ -142,7 +142,7 @@ def get_recipe(_recipe_id: str = None):
         return jsonify(e.error_dict)
 
 
-@app.route('/recipes/post/single', methods=['POST'])
+@app.route('/recipes/add', methods=['POST'])
 def add_recipe(recipes_dict: dict = None, add_ingredients: bool = True):
     if request.method == 'POST':
         if recipes_dict:
@@ -176,7 +176,7 @@ def add_recipe(recipes_dict: dict = None, add_ingredients: bool = True):
             return jsonify(e.error_dict)
 
 
-@app.route('/recipes/delete/single', methods=['POST'])
+@app.route('/recipes/delete', methods=['POST'])
 def delete_recipe():
     if request.method == 'POST':
         try:
@@ -192,7 +192,7 @@ def delete_recipe():
             return jsonify(e.error_dict)
 
 
-@app.route('/recipe/post/update', methods=['POST'])
+@app.route('/recipe/update', methods=['POST'])
 def update_recipe(recipe_dict: dict = None):
     try:
         if recipe_dict:

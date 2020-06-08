@@ -52,7 +52,7 @@ class ModelSchema:
                         "^.*$": {
                             "anyOf": [{"type": "object"}],
                             "properties": {
-                                "quantity": {"type": "string"},
+                                "quantity": {"type": "number"},
                                 "unit": {"type": "string"}
                             }
                         }

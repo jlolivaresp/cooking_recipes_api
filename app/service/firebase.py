@@ -89,7 +89,7 @@ class ReferenceNotFoundException(Exception):
 
 class ElementAlreadyExistsError(Exception):
     def __init__(self, message="The element already exists in the database"):
-        self.code = 200
+        self.code = 409
         self.message = message
         self.error_dict = {
             "code": self.code,

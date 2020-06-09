@@ -6,6 +6,7 @@ from jsonschema import ValidationError
 from app import app
 from app.contants import INGREDIENTS_NAME_FORMAT, UNIT_DEFAULT_NAME, UNIT_DEFAULT_VALUE
 from app.controller.schema_validations import ModelSchema
+from app.errors import validation_error, reference_not_found_error, element_already_exists_error
 from app.model.ingredient import Ingredient
 from app.model.recipe import Recipe
 from app.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError, update_node_array_formatter
@@ -33,7 +34,7 @@ def get_all_ingredients():
     try:
         return jsonify(ingredient.get_all_ingredients())
     except ReferenceNotFoundException as e:
-        return jsonify(e.error_dict)
+        return reference_not_found_error(e)
 
 
 @app.route('/ingredients/get', methods=['POST', 'GET'])
@@ -52,10 +53,10 @@ def get_ingredient(_ingredient_id: str = None):
         return jsonify(ingredient.get_ingredient(ingredient_id))
 
     except ValidationError as e:
-        return jsonify(e.message)
+        return validation_error(e)
 
     except ReferenceNotFoundException as e:
-        return jsonify(e.error_dict)
+        return reference_not_found_error(e)
 
 
 @app.route('/ingredients/add', methods=['POST'])
@@ -68,13 +69,13 @@ def add_ingredient(ingredients_dict: dict = None):
 
         if request.method == 'POST':
             model_schema.add_ingredient_request_schema(req_json)
-            return ingredient.add_ingredient(req_json)
+            return ingredient.add_ingredient(req_json), 201
 
     except ValidationError as e:
-        return jsonify(e.message)
+        return validation_error(e)
 
     except ElementAlreadyExistsError as e:
-        return jsonify(e.error_dict)
+        return element_already_exists_error(e)
 
 
 @app.route('/ingredients/update', methods=['PUT'])
@@ -91,10 +92,10 @@ def update_ingredient(ingredients_dict: dict = None):
         return ingredient.update_ingredient(update_dict)
 
     except ValidationError as e:
-        return jsonify(e.message)
+        return validation_error(e)
 
-    except ElementAlreadyExistsError as e:
-        return jsonify(e.error_dict)
+    except ReferenceNotFoundException as e:
+        return reference_not_found_error(e)
 
 
 @app.route('/ingredients/delete', methods=['DELETE'])
@@ -106,7 +107,7 @@ def delete_ingredient():
             return jsonify(ingredient.delete_ingredient(ingredient_id))
 
         except ValidationError as e:
-            return jsonify(e.message)
+            return validation_error(e)
 
         except ElementAlreadyExistsError as e:
             return jsonify(e.error_dict)

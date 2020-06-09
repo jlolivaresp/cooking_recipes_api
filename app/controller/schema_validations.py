@@ -35,7 +35,7 @@ class ModelSchema:
                 "supermarket": {"type": "array"},
                 "category": {"type": "string"}
             },
-            "required": ["name", "unit_list", "supermarket_list", "category"]
+            "required": ["name", "unit", "supermarket", "category"]
         }
         return validate(obj, schema)
 

@@ -109,16 +109,16 @@ def delete_ingredient():
         except ValidationError as e:
             return validation_error(e)
 
-        except ElementAlreadyExistsError as e:
-            return jsonify(e.error_dict)
+        except ReferenceNotFoundException as e:
+            return reference_not_found_error(e)
 
 
-@app.route('/recipes/get', methods=['GET'])
+@app.route('/recipes', methods=['GET'])
 def get_all_recipes():
     try:
         return jsonify(recipe.get_all_recipes())
     except ReferenceNotFoundException as e:
-        return jsonify(e.error_dict)
+        return reference_not_found_error(e)
 
 
 @app.route('/recipes/get', methods=['POST', 'GET'])
@@ -137,10 +137,10 @@ def get_recipe(_recipe_id: str = None):
         return jsonify(recipe.get_recipe(recipe_id))
 
     except ValidationError as e:
-        return jsonify(e.message)
+        return validation_error(e)
 
     except ReferenceNotFoundException as e:
-        return jsonify(e.error_dict)
+        return reference_not_found_error(e)
 
 
 @app.route('/recipes/add', methods=['POST'])

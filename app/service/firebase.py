@@ -78,7 +78,7 @@ def update_node_array_formatter(node_id: str, old: dict, new: dict):
 
 class ReferenceNotFoundException(Exception):
     def __init__(self, message="Reference not found in the data base"):
-        self.code = 400
+        self.code = 404
         self.message = message
         self.error_dict = {
             "code": self.code,

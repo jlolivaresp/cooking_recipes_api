@@ -1,7 +1,5 @@
 from jsonschema import validate
 
-from app.contants import UNIT_DEFAULT_NAME, INGREDIENTS_NAME_FORMAT
-
 
 class ModelSchema:
     @staticmethod

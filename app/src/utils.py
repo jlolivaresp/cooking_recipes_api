@@ -1,6 +1,7 @@
 from collections import Counter
+from collections.abc import Generator
 from pyexcel_ods import get_data
-from app.contants import INGREDIENTS_NAME_FORMAT, RECIPES_SHEET_NAME, RECIPES_DETAILS, INGREDIENTS_SHEET_NAME
+from app.src.contants import INGREDIENTS_NAME_FORMAT, RECIPES_SHEET_NAME, RECIPES_DETAILS, INGREDIENTS_SHEET_NAME
 
 
 def _dict_counter(_dict: dict, key: str):
@@ -73,3 +74,29 @@ def merge_dicts(a, b, path=None):
 
 def string_formatter(string: str):
     return '_'.join(string.lower().split(' '))
+
+
+def dict_generator(indict, pre=None):
+    pre = pre[:] if pre else []
+    if isinstance(indict, dict):
+        for key, value in indict.items():
+            if isinstance(value, dict):
+                for d in dict_generator(value, pre + [key]):
+                    yield d
+            elif isinstance(value, list) or isinstance(value, tuple):
+                for v in value:
+                    for d in dict_generator(v, pre + [key]):
+                        yield d
+            else:
+                yield pre + [key, value]
+    else:
+        yield pre + [indict]
+
+
+def value_collector(walked_dict_generator: Generator, key: str):
+    collection = list()
+    for element in walked_dict_generator:
+        if key in element:
+            idx = element.index(key)
+            collection.append(element[idx + 1])
+    return collection

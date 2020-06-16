@@ -1,9 +1,8 @@
 from flask import render_template, jsonify
 from jsonschema import ValidationError
-from app.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError
+from app.src.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError
 
 from app import app
-from app.service import firebase
 
 
 @app.errorhandler(404)

@@ -537,49 +537,176 @@ types:
       body:
         application/json:
           type: |
-              {
-                "type": "object",
-                "properties": {
-                  "name": {"type": "string"},
-                  "category": {"type": "string"},
-                  "supermarket": {"type": "array"},
-                  "unit": {"type": "array"}
+            {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "link": {"type": "string"},
+                "ingredients": {
+                  "patternProperties": {
+                    "^.*$": {
+                      "properties": {
+                        "name": {"type": "string"},
+                        "description": {"type": "string"},
+                        "link": {"type": "string"},
+                        "ingredients": {
+                          "type": "object",
+                          "patternProperties": {
+                            "^.*$": {
+                              "anyOf": [{"type": "object"}],
+                              "properties": {
+                                "quantity": {"type": "number"},
+                                "unit": {"type": "string"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "new_ingredients": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "name": {"type": "string"},
+                      "category": {"type": "string"},
+                      "supermarket": {"type": "string"},
+                      "quantity": {"type": "number"},
+                      "unit": {"type": "string"}
+                    }
+                  }
                 }
               }
+            }
           example:
             {
-              "name": "Onion",
-              "category": "Fruit/Vegetable",
-              "supermarket": ["Aldi", "Edeka"],
-              "unit": ["kg", "u"]
+              "name": "Pizza",
+              "description": "Supermarket pizza with home vegetables",
+              "link": "http://www.mypizza.com",
+              "ingredients": {
+                "-M9HqlJkjgu85S-HGbl58": {
+                    "quantity": 2,
+                    "unit": "g"
+                },
+                "-M9HqlUQnD7MS-DS53cKJ": {
+                    "quantity": 5,
+                    "unit": "cups"
+                },
+                "-M9HqlUQnD7MS-LKH4c8": {
+                    "quantity": 7,
+                    "unit": "hand"
+                },
+                "-M9HqlUQnHJGF-5KJHF4": {
+                    "quantity": 4,
+                    "unit": "piles"
+                }
+              },
+              "new_ingredients": [
+                {
+                  "name": "Onion",
+                  "category": "Vegetables/Fruits",
+                  "supermarket": "aldi",
+                  "quantity": 4,
+                  "unit": "piles"
+                },
+                {
+                  "name": "Tomato",
+                  "category": "Vegetables/Fruits",
+                  "supermarket": "aldi",
+                  "quantity": 7,
+                  "unit": "tons"
+                }
+              ]
             }
       responses: # declare a response
-        200: # HTTP status code
+        201: # HTTP status code
           body: # declare content of response
             application/json: # media type
               type: | # structural definition of a response (schema or type)
                 {
-                  "title": "Ingredients response",
                   "type": "object",
-                  "patternProperties": {
-                  "^.*$": {
-                    "properties": {
-                      "name": {"type": "string"},
-                      "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                  "properties": {
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                    "link": {"type": "string"},
+                    "ingredients": {
+                      "patternProperties": {
+                        "^.*$": {
+                          "properties": {
+                            "name": {"type": "string"},
+                            "description": {"type": "string"},
+                            "link": {"type": "string"},
+                            "ingredients": {
+                              "type": "object",
+                              "patternProperties": {
+                                "^.*$": {
+                                  "anyOf": [{"type": "object"}],
+                                  "properties": {
+                                    "quantity": {"type": "number"},
+                                    "unit": {"type": "string"}
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "new_ingredients": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "name": {"type": "string"},
+                          "category": {"type": "string"},
+                          "supermarket": {"type": "string"},
+                          "quantity": {"type": "number"},
+                          "unit": {"type": "string"}
+                        }
                       }
                     }
                   }
                 }
               example: # example how a response looks like
                 {
-                  "-M9HqlUQnD7MS-W6kySH": {
-                    "name": "Onion",
-                    "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
-                  }
+                  "name": "Pizza",
+                  "description": "Supermarket pizza with home vegetables",
+                  "link": "http://www.mypizza.com",
+                  "ingredients": {
+                    "-M9HqlJkjgu85S-HGbl58": {
+                        "quantity": 2,
+                        "unit": "g"
+                    },
+                    "-M9HqlUQnD7MS-DS53cKJ": {
+                        "quantity": 5,
+                        "unit": "cups"
+                    },
+                    "-M9HqlUQnD7MS-LKH4c8": {
+                        "quantity": 7,
+                        "unit": "hands"
+                    },
+                    "-M9HqlUQnHJGF-5KJHF4": {
+                        "quantity": 4,
+                        "unit": "piles"
+                    }
+                  },
+                  "new_ingredients": [
+                    {
+                      "name": "Onion",
+                      "category": "Vegetables/Fruits",
+                      "supermarket": "aldi",
+                      "quantity": 4,
+                      "unit": "piles"
+                    },
+                    {
+                      "name": "Tomato",
+                      "category": "Vegetables/Fruits",
+                      "supermarket": "aldi",
+                      "quantity": 7,
+                      "unit": "tons"
+                    }
+                  ]
                 }
         400:
           body: # declare content of response

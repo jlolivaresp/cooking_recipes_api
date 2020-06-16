@@ -4,16 +4,18 @@ from flask import request, jsonify, render_template, send_from_directory
 from jsonschema import ValidationError
 
 from app import app
-from app.contants import INGREDIENTS_NAME_FORMAT, UNIT_DEFAULT_NAME, UNIT_DEFAULT_VALUE
-from app.controller.schema_validations import ModelSchema
-from app.errors import validation_error, reference_not_found_error, element_already_exists_error
-from app.model.ingredient import Ingredient
-from app.model.recipe import Recipe
-from app.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError, update_node_array_formatter
-from app.utils import _dict_counter, ods_to_dict
+from app.src.contants import INGREDIENTS_NAME_FORMAT, UNIT_DEFAULT_NAME, UNIT_DEFAULT_VALUE
+from app.src.controller.schema_validations import ModelSchema
+from app.src.errors import validation_error, reference_not_found_error, element_already_exists_error
+from app.src.model.ingredient import Ingredient
+from app.src.model.recipe import Recipe
+from app.src.model.unit import Unit
+from app.src.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError, update_node_array_formatter
+from app.src.utils import _dict_counter, ods_to_dict
 
 ingredient = Ingredient()
 recipe = Recipe()
+unit = Unit()
 model_schema = ModelSchema()
 
 
@@ -27,6 +29,16 @@ def favicon():
 @app.route('/index')
 def index():
     return render_template("API_documentation.html")
+
+
+@app.route('/unit/add', methods=['POST'])
+def add_unit():
+    req_json = request.get_json().get('unit')
+    try:
+        return unit.add_unit(req_json), 201
+
+    except ValidationError as e:
+        return validation_error(e)
 
 
 @app.route('/ingredients', methods=['GET'])
@@ -154,21 +166,7 @@ def add_recipe(recipes_dict: dict = None, add_ingredients: bool = True):
         try:
             model_schema.add_recipe_request_schema(req_json)
 
-            # Add the missing ingredients to the ingredients node
-            if add_ingredients:
-                for ing in req_json.get(*req_json).get(INGREDIENTS_NAME_FORMAT):
-                    ing_dict = {
-                        ing: {
-                            UNIT_DEFAULT_NAME: UNIT_DEFAULT_VALUE
-                        }
-                    }
-                    model_schema.add_ingredient_request_schema(ing_dict)
-                    try:
-                        ingredient.add_ingredient(ing_dict)
-                    except ElementAlreadyExistsError as e:
-                        continue
-
-            return jsonify(recipe.add_recipe(req_json))
+            return recipe.add_recipe(req_json), 201
 
         except ValidationError as e:
             return jsonify(e)
@@ -193,7 +191,7 @@ def delete_recipe():
             return jsonify(e.error_dict)
 
 
-@app.route('/recipe/update', methods=['POST'])
+@app.route('/recipe/update', methods=['PUT'])
 def update_recipe(recipe_dict: dict = None):
     try:
         if recipe_dict:

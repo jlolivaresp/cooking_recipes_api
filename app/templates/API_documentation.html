@@ -578,49 +578,182 @@ pre code {
   "type": "object",
   "properties": {
     "name": {"type": "string"},
-    "category": {"type": "string"},
-    "supermarket": {"type": "array"},
-    "unit": {"type": "array"}
-  }
-}
-</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "name": "Onion",
-  "category": "Fruit/Vegetable",
-  "supermarket": [
-    "Aldi",
-    "Edeka"
-  ],
-  "unit": [
-    "kg",
-    "u"
-  ]
-}</code></pre></div></div><div class="tab-pane" id="recipes_add_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "title": "Ingredients response",
-  "type": "object",
-  "patternProperties": {
-  "^.*$": {
-    "properties": {
-      "name": {"type": "string"},
-      "category": {"type": "string"},
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+    "description": {"type": "string"},
+    "link": {"type": "string"},
+    "ingredients": {
+      "patternProperties": {
+        "^.*$": {
+          "properties": {
+            "name": {"type": "string"},
+            "description": {"type": "string"},
+            "link": {"type": "string"},
+            "ingredients": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "anyOf": [{"type": "object"}],
+                  "properties": {
+                    "quantity": {"type": "number"},
+                    "unit": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "new_ingredients": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {"type": "string"},
+          "category": {"type": "string"},
+          "supermarket": {"type": "array"},
+          "quantity": {"type": "number"},
+          "unit": {"type": "array"}
+        }
       }
     }
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "-M9HqlUQnD7MS-W6kySH": {
-    "name": "Onion",
-    "category": "Vegetable/Fruit",
-    "supermarket": [
-      "Aldi",
-      "Edeka"
-    ],
-    "unit": [
-      "u",
-      "g"
-    ]
+  "name": "Pizza",
+  "description": "Supermarket pizza with home vegetables",
+  "link": "http://www.mypizza.com",
+  "ingredients": {
+    "-M9HqlJkjgu85S-HGbl58": {
+      "quantity": 2,
+      "unit": "g"
+    },
+    "-M9HqlUQnD7MS-DS53cKJ": {
+      "quantity": 5,
+      "unit": "cups"
+    },
+    "-M9HqlUQnD7MS-LKH4c8": {
+      "quantity": 7,
+      "unit": "hand"
+    },
+    "-M9HqlUQnHJGF-5KJHF4": {
+      "quantity": 4,
+      "unit": "piles"
+    }
+  },
+  "new_ingredients": [
+    {
+      "name": "Onion",
+      "category": "Vegetables/Fruits",
+      "supermarket": [
+        "aldi",
+        "edeka"
+      ],
+      "quantity": 4,
+      "unit": [
+        "piles"
+      ]
+    },
+    {
+      "name": "Tomato",
+      "category": "Vegetables/Fruits",
+      "supermarket": [
+        "aldi"
+      ],
+      "quantity": 7,
+      "unit": [
+        "tons"
+      ]
+    }
+  ]
+}</code></pre></div></div><div class="tab-pane" id="recipes_add_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
+  "type": "object",
+  "properties": {
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "link": {"type": "string"},
+    "ingredients": {
+      "patternProperties": {
+        "^.*$": {
+          "properties": {
+            "name": {"type": "string"},
+            "description": {"type": "string"},
+            "link": {"type": "string"},
+            "ingredients": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "anyOf": [{"type": "object"}],
+                  "properties": {
+                    "quantity": {"type": "number"},
+                    "unit": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "new_ingredients": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {"type": "string"},
+          "category": {"type": "string"},
+          "supermarket": {"type": "array"},
+          "quantity": {"type": "number"},
+          "unit": {"type": "array"}
+        }
+      }
+    }
   }
+}
+</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "name": "Pizza",
+  "description": "Supermarket pizza with home vegetables",
+  "link": "http://www.mypizza.com",
+  "ingredients": {
+    "-M9HqlJkjgu85S-HGbl58": {
+      "quantity": 2,
+      "unit": "g"
+    },
+    "-M9HqlUQnD7MS-DS53cKJ": {
+      "quantity": 5,
+      "unit": "cups"
+    },
+    "-M9HqlUQnD7MS-LKH4c8": {
+      "quantity": 7,
+      "unit": "hand"
+    },
+    "-M9HqlUQnHJGF-5KJHF4": {
+      "quantity": 4,
+      "unit": "piles"
+    }
+  },
+  "new_ingredients": [
+    {
+      "name": "Onion",
+      "category": "Vegetables/Fruits",
+      "supermarket": [
+        "aldi",
+        "edeka"
+      ],
+      "quantity": 4,
+      "unit": [
+        "piles"
+      ]
+    },
+    {
+      "name": "Tomato",
+      "category": "Vegetables/Fruits",
+      "supermarket": [
+        "aldi"
+      ],
+      "quantity": 7,
+      "unit": [
+        "tons"
+      ]
+    }
+  ]
 }</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "code": 400,
   "message": "&#39;u&#39; is not of type &#39;array&#39;"

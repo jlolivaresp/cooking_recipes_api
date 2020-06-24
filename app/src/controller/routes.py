@@ -35,30 +35,25 @@ def index():
 
 @app.route('/units', methods=['GET', 'POST', 'DELETE'])
 def units():
-    if request.method == 'GET':
-        try:
+    try:
+        if request.method == 'GET':
             return jsonify(unit.get_unit_list())
 
-        except ReferenceNotFoundException as e:
-            return reference_not_found_error(e)
+        elif request.method == 'POST':
+            req_json = request.get_json().get('unit')
 
-    elif request.method == 'POST':
-        req_json = request.get_json().get('unit')
-
-        try:
             return unit.add_unit(req_json), 201
 
-        except ValidationError as e:
-            return validation_error(e)
+        elif request.method == 'DELETE':
+            req_json = request.get_json().get('unit')
 
-    elif request.method == 'DELETE':
-        req_json = request.get_json().get('unit')
-
-        try:
             return jsonify(unit.delete_unit(req_json))
 
-        except ValidationError as e:
-            return validation_error(e)
+    except ValidationError as e:
+        return validation_error(e)
+
+    except ReferenceNotFoundException as e:
+        return reference_not_found_error(e)
 
 
 @app.route('/supermarkets', methods=['GET', 'POST', 'DELETE'])
@@ -217,7 +212,7 @@ def recipes_new(recipes_dict: dict = None):
             return jsonify(e.error_dict)
 
 
-# @app.route('/recipes/get/ingredients/summary', methods=['POST'])
+# @app.route('/recipes/summary', methods=['POST'])
 # def summarize_selected_recipes_ingredients():
 #     recipe_sub_dict = dict()
 #

@@ -1,6 +1,6 @@
 from collections import Counter
 from collections.abc import Generator
-from pyexcel_ods import get_data
+# from pyexcel_ods import get_data
 from app.src.contants import INGREDIENTS_NAME_FORMAT, RECIPES_SHEET_NAME, RECIPES_DETAILS, INGREDIENTS_SHEET_NAME
 
 

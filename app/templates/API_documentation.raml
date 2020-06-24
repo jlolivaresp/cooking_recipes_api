@@ -41,52 +41,227 @@ types:
         message: "The element already exists in the database"
       }
 
-/ingredients: # optional resource
-  description: URI for everything related to the Ingredients class.
+/units:
+  description: URI for everything related to the Units class.
 
   get: # HTTP method declaration
     responses: # declare a response
       200: # HTTP status code
         body: # declare content of response
           application/json: # media type
-            type: | # structural definition of a response (schema or type)
+            type: |
               {
-                "title": "Ingredients response",
-                "type": "object",
-                "patternProperties": {
-                "^.*$": {
-                  "properties": {
-                    "name": {"type": "string"},
-                    "category": {"type": "string"},
-                    "supermarket": {"type": "array"},
-                    "unit": {"type": "array"}
-                    }
-                  }
+                "type": "array",
+                "items": {
+                  "type": "string"
                 }
               }
-            example: # example how a response looks like
-              {
-                "-M9HqlUQnD7MS-W6kySH": {
-                  "name": "Onion",
-                  "category": "Vegetable/Fruit",
-                  "supermarket": ["Aldi", "Edeka"],
-                  "unit": ["u", "g"]
-                },
-                "-M9HqlUQnD7MS-DS53cKJ": {
-                  "name": "...",
-                  "category": "...",
-                  "supermarket": [],
-                  "unit": []
-                },
-                "-M9HqlUQnD7MS-LKH4c8": {},
-                "-M9HqlUQnHJGF-5KJHF4": {}
-              }
+            example:
+              [
+                "slices",
+                "floz",
+                "tons",
+                "tbsp",
+                "cubic_meters"
+              ]
       404:
         body: # declare content of response
           application/json: # media type
             type: ReferenceNotFoundError404
 
-  /get:
+  post:
+    body:
+      application/json:
+        type: |
+          {
+            "type": "object",
+            "properties": {
+                "unit": {"type": ["string", "array"]}
+            }
+          }
+        example:
+          {
+            "unit": "g"
+          }
+    responses: # declare a response
+      201: # HTTP status code
+        body: # declare content of response
+          application/json: # media type
+            type: | # structural definition of a response (schema or type)
+              {
+                "units": [
+                    "g"
+                ]
+              }
+      400:
+        body:
+          application/json:
+            type: ValidationError400
+
+  delete:
+    body:
+      application/json:
+        type: |
+          {
+            "type": "object",
+            "properties": {
+                "unit": {"type": ["string", "array"]}
+            }
+          }
+        example:
+          {
+            "unit": "g"
+          }
+    responses: # declare a response
+      200: # HTTP status code
+        body: # declare content of response
+          application/json: # media type
+            type: | # structural definition of a response (schema or type)
+              {
+                "units": [
+                    "g"
+                ]
+              }
+      400:
+        body:
+          application/json:
+            type: ValidationError400
+
+/supermarkets:
+  description: URI for everything related to the Supermarket class.
+
+  get: # HTTP method declaration
+    responses: # declare a response
+      200: # HTTP status code
+        body: # declare content of response
+          application/json: # media type
+            type: |
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            example:
+              [
+                "slices",
+                "floz",
+                "tons",
+                "tbsp",
+                "cubic_meters"
+              ]
+      404:
+        body: # declare content of response
+          application/json: # media type
+            type: ReferenceNotFoundError404
+
+  post:
+    body:
+      application/json:
+        type: |
+          {
+            "type": "object",
+            "properties": {
+                "unit": {"type": ["string", "array"]}
+            }
+          }
+        example:
+          {
+            "unit": "g"
+          }
+    responses: # declare a response
+      201: # HTTP status code
+        body: # declare content of response
+          application/json: # media type
+            type: | # structural definition of a response (schema or type)
+              {
+                "units": [
+                    "g"
+                ]
+              }
+      400:
+        body:
+          application/json:
+            type: ValidationError400
+
+  delete:
+    body:
+      application/json:
+        type: |
+          {
+          "type": "object",
+            "properties": {
+                "unit": {"type": ["string", "array"]}
+            }
+          }
+        example:
+          {
+            "unit": "g"
+          }
+    responses: # declare a response
+      200: # HTTP status code
+        body: # declare content of response
+          application/json: # media type
+            type: | # structural definition of a response (schema or type)
+              {
+                "units": [
+                    "g"
+                ]
+              }
+      400:
+        body:
+          application/json:
+            type: ValidationError400
+
+
+/ingredients: # optional resource
+  description: URI for everything related to the Ingredients class.
+
+  /all:
+
+    get: # HTTP method declaration
+      responses: # declare a response
+        200: # HTTP status code
+          body: # declare content of response
+            application/json: # media type
+              type: | # structural definition of a response (schema or type)
+                {
+                  "title": "Ingredients response",
+                  "type": "object",
+                  "patternProperties": {
+                  "^.*$": {
+                    "properties": {
+                      "name": {"type": "string"},
+                      "category": {"type": "string"},
+                      "supermarket": {"type": "array"},
+                      "unit": {"type": "array"}
+                      }
+                    }
+                  }
+                }
+              example: # example how a response looks like
+                {
+                  "-M9HqlUQnD7MS-W6kySH": {
+                    "name": "Onion",
+                    "category": "Vegetable/Fruit",
+                    "supermarket": ["Aldi", "Edeka"],
+                    "unit": ["u", "g"]
+                  },
+                  "-M9HqlUQnD7MS-DS53cKJ": {
+                    "name": "...",
+                    "category": "...",
+                    "supermarket": [],
+                    "unit": []
+                  },
+                  "-M9HqlUQnD7MS-LKH4c8": {},
+                  "-M9HqlUQnHJGF-5KJHF4": {}
+                }
+        404:
+          body: # declare content of response
+            application/json: # media type
+              type: ReferenceNotFoundError404
+
+  /single:
     get:
       queryParameters:
         id:
@@ -173,7 +348,114 @@ types:
             application/json: # media type
               type: ReferenceNotFoundError404
 
-  /add:
+    put:
+      body:
+        application/json:
+          type: |
+            {
+              "title": "Ingredients response",
+              "type": "object",
+              "patternProperties": {
+              "^.*$": {
+                "properties": {
+                  "supermarket": {"type": "array"},
+                  "unit": {"type": "array"}
+                  }
+                }
+              }
+            }
+          example:
+            {
+              "-M9HqlUQnD7MS-W6kySH": {
+                "supermarket": ["Aldi"],
+                "unit": ["u"]
+              }
+            }
+      responses: # declare a response
+        200: # HTTP status code
+          body: # declare content of response
+            application/json: # media type
+              type: | # structural definition of a response (schema or type)
+                {
+                  "title": "Ingredients response",
+                  "type": "object",
+                  "patternProperties": {
+                  "^.*$": {
+                    "properties": {
+                      "supermarket": {"type": "array"},
+                      "unit": {"type": "array"}
+                      }
+                    }
+                  }
+                }
+              example: # example how a response looks like
+                {
+                  "-M9HqlUQnD7MS-W6kySH": {
+                    "supermarket": ["Aldi", "Edeka"],
+                    "unit": ["u", "g"]
+                  }
+                }
+        400:
+          body:
+              application/json:
+                type: ValidationError400
+        404:
+          body: # declare content of response
+            application/json: # media type
+              type: ReferenceNotFoundError404
+
+    delete:
+      body:
+          application/json:
+            type: |
+              {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string"}
+                }
+              }
+            example:
+              {
+                "id": "-M9HqlUQnD7MS-W6kySH"
+              }
+      responses: # declare a response
+        200: # HTTP status code
+          body: # declare content of response
+            application/json: # media type
+              type: | # structural definition of a response (schema or type)
+                {
+                  "title": "Ingredients response",
+                  "type": "object",
+                  "patternProperties": {
+                  "^.*$": {
+                    "properties": {
+                      "name": {"type": "string"},
+                      "category": {"type": "string"},
+                      "supermarket": {"type": "array"},
+                      "unit": {"type": "array"}
+                      }
+                    }
+                  }
+                }
+              example: # example how a response looks like
+                {
+                  "-M9HqlUQnD7MS-W6kySH": {
+                    "name": "Onion",
+                    "category": "Vegetable/Fruit",
+                    "supermarket": ["Aldi", "Edeka"],
+                    "unit": ["u", "g"]
+                  }
+                }
+        400:
+          body: # declare content of response
+            application/json: # media type
+              type: ValidationError400
+        404:
+          body: # declare content of response
+            application/json: # media type
+              type: ReferenceNotFoundError404
+
+  /new:
     post:
       body:
         application/json:
@@ -231,141 +513,35 @@ types:
             application/json:
               type: ElementAlreadyExistsError409
 
-  /update:
-    put:
-      body:
-        application/json:
-          type: |
-            {
-              "title": "Ingredients response",
-              "type": "object",
-              "patternProperties": {
-              "^.*$": {
-                "properties": {
-                  "supermarket": {"type": "array"},
-                  "unit": {"type": "array"}
-                  }
-                }
-              }
-            }
-          example:
-            {
-              "-M9HqlUQnD7MS-W6kySH": {
-                "supermarket": ["Aldi"],
-                "unit": ["u"]
-              }
-            }
-      responses: # declare a response
-        200: # HTTP status code
-          body: # declare content of response
-            application/json: # media type
-              type: | # structural definition of a response (schema or type)
-                {
-                  "title": "Ingredients response",
-                  "type": "object",
-                  "patternProperties": {
-                  "^.*$": {
-                    "properties": {
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
-                      }
-                    }
-                  }
-                }
-              example: # example how a response looks like
-                {
-                  "-M9HqlUQnD7MS-W6kySH": {
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
-                  }
-                }
-        400:
-          body:
-              application/json:
-                type: ValidationError400
-        404:
-          body: # declare content of response
-            application/json: # media type
-              type: ReferenceNotFoundError404
-
-  /delete:
-    delete:
-      body:
-          application/json:
-            type: |
-              {
-                "type": "object",
-                "properties": {
-                  "id": {"type": "string"}
-                }
-              }
-            example:
-              {
-                "id": "-M9HqlUQnD7MS-W6kySH"
-              }
-      responses: # declare a response
-        200: # HTTP status code
-          body: # declare content of response
-            application/json: # media type
-              type: | # structural definition of a response (schema or type)
-                {
-                  "title": "Ingredients response",
-                  "type": "object",
-                  "patternProperties": {
-                  "^.*$": {
-                    "properties": {
-                      "name": {"type": "string"},
-                      "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
-                      }
-                    }
-                  }
-                }
-              example: # example how a response looks like
-                {
-                  "-M9HqlUQnD7MS-W6kySH": {
-                    "name": "Onion",
-                    "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
-                  }
-                }
-        400:
-          body: # declare content of response
-            application/json: # media type
-              type: ValidationError400
-        404:
-          body: # declare content of response
-            application/json: # media type
-              type: ReferenceNotFoundError404
-
 /recipes:
   description: URI for everything related to the Recipes class
 
-  get: # HTTP method declaration
-    responses: # declare a response
-      200: # HTTP status code
-        body: # declare content of response
-          application/json: # media type
-            type: | # structural definition of a response (schema or type)
-              {
-                "title": "Recipes response",
-                "type": "object",
-                "patternProperties": {
-                  "^.*$": {
-                    "properties": {
-                      "name": {"type": "string"},
-                      "description": {"type": "string"},
-                      "link": {"type": "string"},
-                      "ingredients": {
-                        "type": "object",
-                        "patternProperties": {
-                          "^.*$": {
-                            "anyOf": [{"type": "object"}],
-                            "properties": {
-                              "quantity": {"type": "number"},
-                              "unit": {"type": "string"}
+  /all:
+
+    get: # HTTP method declaration
+      responses: # declare a response
+        200: # HTTP status code
+          body: # declare content of response
+            application/json: # media type
+              type: | # structural definition of a response (schema or type)
+                {
+                  "title": "Recipes response",
+                  "type": "object",
+                  "patternProperties": {
+                    "^.*$": {
+                      "properties": {
+                        "name": {"type": "string"},
+                        "description": {"type": "string"},
+                        "link": {"type": "string"},
+                        "ingredients": {
+                          "type": "object",
+                          "patternProperties": {
+                            "^.*$": {
+                              "anyOf": [{"type": "object"}],
+                              "properties": {
+                                "quantity": {"type": "number"},
+                                "unit": {"type": "string"}
+                              }
                             }
                           }
                         }
@@ -373,35 +549,34 @@ types:
                     }
                   }
                 }
-              }
-            example: # example how a response looks like
-              {
-                "-M9HqlUQnD7MS-W6kySH": {
-                  "name": "Pizza",
-                  "description": "Aldi pizza with home vegetables",
-                  "link": "http://www.mypizza.com",
-                  "ingredients": {
-                    "-M9HqlJkjgu85S-HGbl58": {
-                      "quantity": 2,
-                      "unit": g
+              example: # example how a response looks like
+                {
+                  "-M9HqlUQnD7MS-W6kySH": {
+                    "name": "Pizza",
+                    "description": "Aldi pizza with home vegetables",
+                    "link": "http://www.mypizza.com",
+                    "ingredients": {
+                      "-M9HqlJkjgu85S-HGbl58": {
+                        "quantity": 2,
+                        "unit": g
+                      }
                     }
-                  }
-                },
-                "-M9HqlUQnD7MS-DS53cKJ": {
-                  "name": "...",
-                  "description": "...",
-                  "link": "...",
-                  "ingredients": {}
-                },
-                "-M9HqlUQnD7MS-LKH4c8": {},
-                "-M9HqlUQnHJGF-5KJHF4": {}
-              }
-      404:
-        body: # declare content of response
-          application/json: # media type
-            type: ReferenceNotFoundError404 # structural definition of a response (schema or type)
+                  },
+                  "-M9HqlUQnD7MS-DS53cKJ": {
+                    "name": "...",
+                    "description": "...",
+                    "link": "...",
+                    "ingredients": {}
+                  },
+                  "-M9HqlUQnD7MS-LKH4c8": {},
+                  "-M9HqlUQnHJGF-5KJHF4": {}
+                }
+        404:
+          body: # declare content of response
+            application/json: # media type
+              type: ReferenceNotFoundError404 # structural definition of a response (schema or type)
 
-  /get:
+  /single:
     get:
       queryParameters:
         id:
@@ -532,7 +707,114 @@ types:
             application/json: # media type
               type: ReferenceNotFoundError404
 
-  /add:
+    put:
+      body:
+        application/json:
+          type: |
+            {
+              "title": "Ingredients response",
+              "type": "object",
+              "patternProperties": {
+              "^.*$": {
+                "properties": {
+                  "supermarket": {"type": "array"},
+                  "unit": {"type": "array"}
+                  }
+                }
+              }
+            }
+          example:
+            {
+              "-M9HqlUQnD7MS-W6kySH": {
+                "supermarket": ["Aldi"],
+                "unit": ["u"]
+              }
+            }
+      responses: # declare a response
+        200: # HTTP status code
+          body: # declare content of response
+            application/json: # media type
+              type: | # structural definition of a response (schema or type)
+                {
+                  "title": "Ingredients response",
+                  "type": "object",
+                  "patternProperties": {
+                  "^.*$": {
+                    "properties": {
+                      "supermarket": {"type": "array"},
+                      "unit": {"type": "array"}
+                      }
+                    }
+                  }
+                }
+              example: # example how a response looks like
+                {
+                  "-M9HqlUQnD7MS-W6kySH": {
+                    "supermarket": ["Aldi", "Edeka"],
+                    "unit": ["u", "g"]
+                  }
+                }
+        400:
+          body:
+              application/json:
+                type: ValidationError400
+        404:
+          body: # declare content of response
+            application/json: # media type
+              type: ReferenceNotFoundError404
+
+    delete:
+      body:
+          application/json:
+            type: |
+              {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string"}
+                }
+              }
+            example:
+              {
+                "id": "-M9HqlUQnD7MS-W6kySH"
+              }
+      responses: # declare a response
+        200: # HTTP status code
+          body: # declare content of response
+            application/json: # media type
+              type: | # structural definition of a response (schema or type)
+                {
+                  "title": "Ingredients response",
+                  "type": "object",
+                  "patternProperties": {
+                  "^.*$": {
+                    "properties": {
+                      "name": {"type": "string"},
+                      "category": {"type": "string"},
+                      "supermarket": {"type": "array"},
+                      "unit": {"type": "array"}
+                      }
+                    }
+                  }
+                }
+              example: # example how a response looks like
+                {
+                  "-M9HqlUQnD7MS-W6kySH": {
+                    "name": "Onion",
+                    "category": "Vegetable/Fruit",
+                    "supermarket": ["Aldi", "Edeka"],
+                    "unit": ["u", "g"]
+                  }
+                }
+        400:
+          body: # declare content of response
+            application/json: # media type
+              type: ValidationError400
+        404:
+          body: # declare content of response
+            application/json: # media type
+              type: ReferenceNotFoundError404
+
+  /new:
     post:
       body:
         application/json:
@@ -716,112 +998,3 @@ types:
           body: # declare content of response
             application/json: # media type
               type: ElementAlreadyExistsError409
-
-  /update:
-    put:
-      body:
-        application/json:
-          type: |
-            {
-              "title": "Ingredients response",
-              "type": "object",
-              "patternProperties": {
-              "^.*$": {
-                "properties": {
-                  "supermarket": {"type": "array"},
-                  "unit": {"type": "array"}
-                  }
-                }
-              }
-            }
-          example:
-            {
-              "-M9HqlUQnD7MS-W6kySH": {
-                "supermarket": ["Aldi"],
-                "unit": ["u"]
-              }
-            }
-      responses: # declare a response
-        200: # HTTP status code
-          body: # declare content of response
-            application/json: # media type
-              type: | # structural definition of a response (schema or type)
-                {
-                  "title": "Ingredients response",
-                  "type": "object",
-                  "patternProperties": {
-                  "^.*$": {
-                    "properties": {
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
-                      }
-                    }
-                  }
-                }
-              example: # example how a response looks like
-                {
-                  "-M9HqlUQnD7MS-W6kySH": {
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
-                  }
-                }
-        400:
-          body:
-              application/json:
-                type: ValidationError400
-        404:
-          body: # declare content of response
-            application/json: # media type
-              type: ReferenceNotFoundError404
-
-  /delete:
-    delete:
-      body:
-          application/json:
-            type: |
-              {
-                "type": "object",
-                "properties": {
-                  "id": {"type": "string"}
-                }
-              }
-            example:
-              {
-                "id": "-M9HqlUQnD7MS-W6kySH"
-              }
-      responses: # declare a response
-        200: # HTTP status code
-          body: # declare content of response
-            application/json: # media type
-              type: | # structural definition of a response (schema or type)
-                {
-                  "title": "Ingredients response",
-                  "type": "object",
-                  "patternProperties": {
-                  "^.*$": {
-                    "properties": {
-                      "name": {"type": "string"},
-                      "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
-                      }
-                    }
-                  }
-                }
-              example: # example how a response looks like
-                {
-                  "-M9HqlUQnD7MS-W6kySH": {
-                    "name": "Onion",
-                    "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
-                  }
-                }
-        400:
-          body: # declare content of response
-            application/json: # media type
-              type: ValidationError400
-        404:
-          body: # declare content of response
-            application/json: # media type
-              type: ReferenceNotFoundError404

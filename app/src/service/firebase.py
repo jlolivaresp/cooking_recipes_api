@@ -9,7 +9,7 @@ class Firebase:
         def __init__(self, arg):
             self.val = arg
             this_file_path = os.path.abspath(os.path.dirname(__file__))
-            path = os.path.join(this_file_path, "../../auth.json")
+            path = os.path.join(this_file_path, "auth.json")
             cred = credentials.Certificate(path)
             firebase_admin.initialize_app(cred, {'databaseURL': 'https://groceries-5674f.firebaseio.com/'})
 

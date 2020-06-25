@@ -1,5 +1,11 @@
 from jsonschema import validate
 
+from app.src.model.model_constants import GENERAL_ID_REF, INGREDIENTS_SUB_NODE_NAME_REF, NEW_INGREDIENT_UNIT_REF, \
+    NEW_INGREDIENT_SUPERMARKET_REF, INGREDIENT_SUB_NODE_CATEGORY_NAME, RECIPES_SUB_NODE_NAME_REF, \
+    RECIPES_SUB_NODE_DESCRIPTION_REF, RECIPES_SUB_NODE_LINK_REF, RECIPE_SUB_NODE_INGREDIENTS_REF, \
+    RECIPE_INGREDIENT_UNIT_REF, RECIPE_INGREDIENT_QUANTITY_REF, RECIPE_IDS_REF, INGREDIENT_SUB_NODE_UNIT_REF, \
+    INGREDIENT_SUB_NODE_SUPERMARKET_REF
+
 
 class ModelSchema:
     @staticmethod
@@ -7,9 +13,9 @@ class ModelSchema:
         schema = {
             "type": "object",
             "properties": {
-                "id": {"type": "string"}
+                GENERAL_ID_REF: {"type": "string"}
             },
-            "required": ["id"]
+            "required": [GENERAL_ID_REF]
         }
         return validate(obj, schema)
 
@@ -28,12 +34,13 @@ class ModelSchema:
         schema = {
             "type": "object",
             "properties": {
-                "name": {"type": "string"},
-                "unit": {"type": "array"},
-                "supermarket": {"type": "array"},
-                "category": {"type": "string"}
+                INGREDIENTS_SUB_NODE_NAME_REF: {"type": "string"},
+                NEW_INGREDIENT_UNIT_REF: {"type": "array"},
+                NEW_INGREDIENT_SUPERMARKET_REF: {"type": "array"},
+                INGREDIENT_SUB_NODE_CATEGORY_NAME: {"type": "string"}
             },
-            "required": ["name", "unit", "supermarket", "category"]
+            "required": [INGREDIENTS_SUB_NODE_NAME_REF, NEW_INGREDIENT_UNIT_REF,
+                         NEW_INGREDIENT_SUPERMARKET_REF, INGREDIENT_SUB_NODE_CATEGORY_NAME]
         }
         return validate(obj, schema)
 
@@ -42,16 +49,17 @@ class ModelSchema:
         schema = {
             "type": "object",
             "properties": {
-                "name": {"type": "string"},
-                "supermarket": {"type": "string"},
-                "ingredients": {
+                RECIPES_SUB_NODE_NAME_REF: {"type": "string"},
+                RECIPES_SUB_NODE_DESCRIPTION_REF: {"type": "string"},
+                RECIPES_SUB_NODE_LINK_REF: {"type": "string"},
+                RECIPE_SUB_NODE_INGREDIENTS_REF: {
                     "type": "object",
                     "patternProperties": {
                         "^.*$": {
                             "anyOf": [{"type": "object"}],
                             "properties": {
-                                "quantity": {"type": "number"},
-                                "unit": {"type": "string"}
+                                RECIPE_INGREDIENT_QUANTITY_REF: {"type": "number"},
+                                RECIPE_INGREDIENT_UNIT_REF: {"type": "string"}
                             }
                         }
                     }
@@ -65,7 +73,7 @@ class ModelSchema:
         schema = {
             "type": "object",
             "properties": {
-                "recipes_ids": {
+                RECIPE_IDS_REF: {
                     "type": "array",
                     "items": {"type": "string"}
                 }
@@ -82,8 +90,8 @@ class ApiSchema:
             "patternProperties": {
                 "^.*$": {
                     "properties": {
-                        "supermarket": {"type": "array"},
-                        "unit": {"type": "array"}
+                        INGREDIENT_SUB_NODE_SUPERMARKET_REF: {"type": "array"},
+                        INGREDIENT_SUB_NODE_UNIT_REF: {"type": "array"}
                     }
                 }
             }

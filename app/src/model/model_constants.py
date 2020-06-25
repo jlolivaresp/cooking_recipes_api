@@ -1,21 +1,31 @@
-# DB primary nodes names
-INGREDIENTS_DB_PRIMARY_NODE_NAME = "ingredients"
-RECIPES_DB_PRIMARY_NODE_NAME = "recipes"
-UNITS_DB_PRIMARY_NODE_NAME = "units"
-SUPERMARKETS_PRIMARY_DB_NODE_NAME = "supermarkets"
+# DB Node names and formats
+INGREDIENTS_NODE_REF = "ingredients"
+INGREDIENTS_SUB_NODE_REF_FORMAT = "ingredients/{}"
+INGREDIENT_SUB_NODE_UNIT_REF = "units"
+INGREDIENTS_SUB_NODE_UNITS_REF_FORMAT = "ingredients/{}/" + INGREDIENT_SUB_NODE_UNIT_REF
+INGREDIENTS_SUB_NODE_NAME_REF = "name"
+INGREDIENT_SUB_NODE_CATEGORY_NAME = "category"
+INGREDIENT_SUB_NODE_SUPERMARKET_REF = "supermarkets"
+NEW_INGREDIENT_UNIT_REF = "unit"
+NEW_INGREDIENT_SUPERMARKET_REF = "supermarket"
 
-# DB secondary nodes names
+RECIPES_NODE_REF = "recipes"
+RECIPES_SUB_NODE_NAME_REF = "name"
+RECIPES_SUB_NODE_DESCRIPTION_REF = "description"
+RECIPES_SUB_NODE_LINK_REF = "link"
+RECIPES_SUB_NODE_REF_FORMAT = "recipes/{}"
+RECIPE_INGREDIENT_UNIT_REF = "unit"
+RECIPE_INGREDIENT_QUANTITY_REF = "quantity"
+RECIPE_INGREDIENT_SUPERMARKET_REF = "supermarket"
+RECIPE_SUB_NODE_INGREDIENTS_REF = "ingredients"
+RECIPE_NEW_INGREDIENTS_REF = "new_ingredients"
+RECIPE_IDS_REF = "recipes_ids"
 
-
-# URI string formats
-INGREDIENT_ALL_REF = "ingredients"
-INGREDIENT_REF = "ingredients/{}"
-INGREDIENT_UNIT_REF = "ingredients/{}/unit"
-
-RECIPE_ALL_REF = "recipes"
-RECIPE_REF = "recipes/{}"
-
-UNIT_ALL_REF = "units"
+UNITS_NODE_REF = "units"
+NEW_UNIT_REF = "unit"
 
 SUPERMARKET_ALL_REF = "supermarkets"
-SUPERMARKET_REF = "supermarkets/{}"
+NEW_SUPERMARKET_REF = "supermarket"
+SUPERMARKETS_SUB_NODE_REF_FORMAT = "supermarkets/{}"
+
+GENERAL_ID_REF = "id"

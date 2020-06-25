@@ -1,4 +1,4 @@
-from app.src.model.model_constants import SUPERMARKET_ALL_REF, SUPERMARKET_REF
+from app.src.model.model_constants import SUPERMARKET_ALL_REF, SUPERMARKETS_SUB_NODE_REF_FORMAT
 from app.src.service import firebase
 
 db = firebase.Firebase("firebase")
@@ -21,5 +21,5 @@ class Supermarket:
 
     @staticmethod
     def delete_supermarket(supermarket_id: str):
-        db.delete(SUPERMARKET_REF.format(supermarket_id))
+        db.delete(SUPERMARKETS_SUB_NODE_REF_FORMAT.format(supermarket_id))
         return supermarket_id

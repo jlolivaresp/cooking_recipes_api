@@ -5,10 +5,11 @@ from flask import request, jsonify, render_template, send_from_directory
 from jsonschema import ValidationError
 
 from app import app
-from app.src.contants import INGREDIENTS_NAME_FORMAT, UNIT_DEFAULT_NAME, UNIT_DEFAULT_VALUE
 from app.src.controller.schema_validations import ModelSchema
 from app.src.errors import validation_error, reference_not_found_error, element_already_exists_error
 from app.src.model.ingredient import Ingredient
+from app.src.model.model_constants import NEW_UNIT_REF, NEW_SUPERMARKET_REF, GENERAL_ID_REF, RECIPE_SUB_NODE_INGREDIENTS_REF, \
+    INGREDIENTS_SUB_NODE_NAME_REF, RECIPE_INGREDIENT_UNIT_REF, RECIPE_INGREDIENT_QUANTITY_REF, RECIPE_IDS_REF
 from app.src.model.recipe import Recipe
 from app.src.model.unit import Unit
 from app.src.model.supermarket import Supermarket
@@ -41,12 +42,13 @@ def units():
             return jsonify(unit.get_unit_list())
 
         elif request.method == 'POST':
-            req_json = request.get_json().get('unit')
+            # TODO Validate request
+            req_json = request.get_json().get(NEW_UNIT_REF)
 
             return unit.add_unit(req_json), 201
 
         elif request.method == 'DELETE':
-            req_json = request.get_json().get('unit')
+            req_json = request.get_json().get(NEW_UNIT_REF)
 
             return jsonify(unit.delete_unit(req_json))
 
@@ -64,12 +66,12 @@ def supermarkets():
             return jsonify(supermarket.get_supermarket_list())
 
         elif request.method == 'POST':
-            req_json = request.get_json().get('unit')
+            req_json = request.get_json().get(NEW_SUPERMARKET_REF)
 
             return supermarket.add_supermarket(req_json), 201
 
         elif request.method == 'DELETE':
-            req_json = request.get_json().get('unit')
+            req_json = request.get_json().get(NEW_SUPERMARKET_REF)
 
             return jsonify(supermarket.delete_supermarket(req_json))
 
@@ -96,10 +98,10 @@ def ingredients_single(_ingredient_id: str = None):
             ingredient_id = _ingredient_id
 
         elif request.method == 'POST':
-            ingredient_id = request.get_json().get("id")
+            ingredient_id = request.get_json().get(GENERAL_ID_REF)
 
         elif request.method == 'GET':
-            ingredient_id = request.args.get("id")
+            ingredient_id = request.args.get(GENERAL_ID_REF)
 
         elif request.method == 'PUT':
             req_json = request.get_json()
@@ -111,7 +113,7 @@ def ingredients_single(_ingredient_id: str = None):
 
         elif request.method == 'DELETE':
             model_schema.get_delete_node_request_schema(request.get_json())
-            ingredient_id = request.get_json().get("id")
+            ingredient_id = request.get_json().get(GENERAL_ID_REF)
             return jsonify(ingredient.delete_ingredient(ingredient_id))
 
         else:
@@ -162,10 +164,10 @@ def recipes_single(_recipe_id: str = None):
             recipe_id = _recipe_id
 
         elif request.method == 'POST':
-            recipe_id = request.get_json().get("id")
+            recipe_id = request.get_json().get(GENERAL_ID_REF)
 
         elif request.method == 'GET':
-            recipe_id = request.args.get("id")
+            recipe_id = request.args.get(GENERAL_ID_REF)
 
         elif request.method == 'PUT':
             req_json = request.get_json()
@@ -177,7 +179,7 @@ def recipes_single(_recipe_id: str = None):
 
         elif request.method == 'DELETE':
             # TODO validate request
-            recipe_id = request.get_json().get("id")
+            recipe_id = request.get_json().get(GENERAL_ID_REF)
             return jsonify(recipe.delete_recipe(recipe_id))
 
         else:
@@ -221,7 +223,7 @@ def recipes_summary():
             model_schema.summarize_selected_recipes_ingredients(request.get_json())
 
             # Extract the list of recipe id's from the request
-            recipes_id_list = request.get_json().get("recipes_ids")
+            recipes_id_list = request.get_json().get(RECIPE_IDS_REF)
 
             # Define a Counter object to add recipe's ingredients in common
             counter = Counter()
@@ -230,7 +232,7 @@ def recipes_summary():
             for recipe_id in recipes_id_list:
 
                 # Get that recipe's ingredients
-                recipe_ingredients = recipe.get_recipe(recipe_id).get("ingredients")
+                recipe_ingredients = recipe.get_recipe(recipe_id).get(RECIPE_SUB_NODE_INGREDIENTS_REF)
 
                 # And convert that dictionary of dictionaries into a list of dictionaries
                 # It's easier to add the common ingredients' quantities this way
@@ -238,7 +240,8 @@ def recipes_summary():
                     {
                         # Since every ingredient in a recipe has an unit
                         # Make a concatenated key from <<ingredient_id> <unit>>
-                        "{} {}".format(ingredient_id, value.get("unit")): value.get("quantity")
+                        "{} {}".format(ingredient_id,
+                                       value.get(RECIPE_INGREDIENT_UNIT_REF)): value.get(RECIPE_INGREDIENT_QUANTITY_REF)
                     }
                     for ingredient_id, value in recipe_ingredients.items()
                 ]
@@ -264,7 +267,7 @@ def recipes_summary():
                 # If the <ingredient_id> is in the node reference
                 if ingredients_recipe_id_ref:
                     # Get its name
-                    ingredient_name = ingredients_recipe_id_ref.get("name")
+                    ingredient_name = ingredients_recipe_id_ref.get(INGREDIENTS_SUB_NODE_NAME_REF)
 
                     # Replace <ingredient_id> for <ingredient_name>
                     counter_copy["{} {}".format(ingredient_name, unit)] = counter_copy.pop(key)

@@ -65,7 +65,7 @@ class ModelSchema:
         schema = {
             "type": "object",
             "properties": {
-                "recipe_list": {
+                "recipes_ids": {
                     "type": "array",
                     "items": {"type": "string"}
                 }

@@ -1,14 +1,6 @@
-from collections import Counter
 from collections.abc import Generator
 # from pyexcel_ods import get_data
 from app.src.contants import INGREDIENTS_NAME_FORMAT, RECIPES_SHEET_NAME, RECIPES_DETAILS, INGREDIENTS_SHEET_NAME
-
-
-def _dict_counter(_dict: dict, key: str):
-    counted_dict = Counter(dict())
-    for r in _dict:
-        counted_dict += Counter(_dict.get(r).get(key))
-    return counted_dict
 
 
 def ods_list_to_dict_default(ods_list: list):

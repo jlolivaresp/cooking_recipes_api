@@ -998,3 +998,49 @@ types:
           body: # declare content of response
             application/json: # media type
               type: ElementAlreadyExistsError409
+
+  /summary:
+    post:
+      body:
+        application/json:
+          type: |
+            {
+              "type": "object",
+              "properties": {
+                "recipes_ids": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                }
+              }
+            }
+          example:
+            {
+              "recipes_ids": [
+                "-M9vmiffPqRjN3zZwFyN",
+                "-M9vnZ4nYZ5sJXcariko"
+              ]
+            }
+      responses:
+        200: # HTTP status code
+          body: # declare content of response
+            application/json: # media type
+              type: | # structural definition of a response (schema or type)
+                {
+                  "patternProperties": {
+                    "^.*$": {
+                      "type": "number"
+                    }
+                  }
+                }
+              examples:
+                {
+                  "banana tons": 14,
+                  "ham slices": 4,
+                  "oregano tbsp": 7,
+                  "pinaple floz": 4,
+                  "pinaple u": 4
+                }
+        400:
+          body: # declare content of response
+            application/json: # media type
+              type: ValidationError400

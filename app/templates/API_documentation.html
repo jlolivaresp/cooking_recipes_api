@@ -927,4 +927,28 @@ pre code {
 }</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "code": 409,
   "message": "The element already exists in the database"
+}</code></pre></div></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_recipes_summary"><span class="parent">/recipes</span>/summary</a> <span class="methods"><a href="#recipes_summary_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_recipes_summary" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#recipes_summary_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="recipes_summary_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/recipes</span>/summary</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#recipes_summary_post_request" data-toggle="tab">Request</a></li><li><a href="#recipes_summary_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="recipes_summary_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
+  "type": "object",
+  "properties": {
+    "recipes_ids": {
+        "type": "array",
+        "items": {"type": "string"}
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "recipes_ids": [
+    "-M9vmiffPqRjN3zZwFyN",
+    "-M9vnZ4nYZ5sJXcariko"
+  ]
+}</code></pre></div></div><div class="tab-pane" id="recipes_summary_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
+  "patternProperties": {
+    "^.*$": {
+      "type": "number"
+    }
+  }
+}
+</code></pre><p><strong>Examples</strong>:</p><div class="examples"><p><strong>banana tons</strong>:<br></p><pre><code>14</code></pre><p><strong>ham slices</strong>:<br></p><pre><code>4</code></pre><p><strong>oregano tbsp</strong>:<br></p><pre><code>7</code></pre><p><strong>pinaple floz</strong>:<br></p><pre><code>4</code></pre><p><strong>pinaple u</strong>:<br></p><pre><code>4</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "code": 400,
+  "message": "&#39;u&#39; is not of type &#39;array&#39;"
 }</code></pre></div></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#units">/units</a></li><li><a href="#supermarkets">/supermarkets</a></li><li><a href="#ingredients">/ingredients</a></li><li><a href="#recipes">/recipes</a></li></ul></div></div></div></div></body></html>

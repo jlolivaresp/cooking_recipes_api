@@ -1,4 +1,5 @@
 import os
+from collections import Counter
 
 from flask import request, jsonify, render_template, send_from_directory
 from jsonschema import ValidationError
@@ -12,7 +13,7 @@ from app.src.model.recipe import Recipe
 from app.src.model.unit import Unit
 from app.src.model.supermarket import Supermarket
 from app.src.service.firebase import ReferenceNotFoundException, ElementAlreadyExistsError, update_node_array_formatter
-from app.src.utils import _dict_counter, ods_to_dict
+from app.src.utils import ods_to_dict
 
 ingredient = Ingredient()
 recipe = Recipe()
@@ -212,28 +213,66 @@ def recipes_new(recipes_dict: dict = None):
             return jsonify(e.error_dict)
 
 
-# @app.route('/recipes/summary', methods=['POST'])
-# def summarize_selected_recipes_ingredients():
-#     recipe_sub_dict = dict()
-#
-#     if request.method == 'POST':
-#         try:
-#             model_schema.summarize_selected_recipes_ingredients(request.get_json())
-#             for name in request.get_json().get("recipe_list"):
-#                 selected_recipe = {name: recipe.get_recipe(name)}
-#                 recipe_sub_dict = dict(**recipe_sub_dict, **selected_recipe)
-#
-#             ingredients_summary_dict = _dict_counter(recipe_sub_dict, "ingredients")
-#
-#             for ing in ingredients_summary_dict:
-#                 # ing_json = {ing: get_ingredient(ing).get_json()}
-#                 ingredients_summary_dict[ing] = str(ingredients_summary_dict.get(ing)) \
-#                                                 + " {}".format(get_ingredient(ing).get_json().get("dimension"))
-#
-#             return jsonify(ingredients_summary_dict)
-#
-#         except ValidationError as e:
-#             return jsonify(e.message)
+@app.route('/recipes/summary', methods=['POST'])
+def recipes_summary():
+    try:
+        if request.method == 'POST':
+            # Validate request schema
+            model_schema.summarize_selected_recipes_ingredients(request.get_json())
+
+            # Extract the list of recipe id's from the request
+            recipes_id_list = request.get_json().get("recipes_ids")
+
+            # Define a Counter object to add recipe's ingredients in common
+            counter = Counter()
+
+            # For every selected recipe in the request
+            for recipe_id in recipes_id_list:
+
+                # Get that recipe's ingredients
+                recipe_ingredients = recipe.get_recipe(recipe_id).get("ingredients")
+
+                # And convert that dictionary of dictionaries into a list of dictionaries
+                # It's easier to add the common ingredients' quantities this way
+                recipe_ingredients_list = [
+                    {
+                        # Since every ingredient in a recipe has an unit
+                        # Make a concatenated key from <<ingredient_id> <unit>>
+                        "{} {}".format(ingredient_id, value.get("unit")): value.get("quantity")
+                    }
+                    for ingredient_id, value in recipe_ingredients.items()
+                ]
+
+                # Add quantities for every <<ingredient_id> <unit>> pair
+                for ingredient_id_quantity_pair in recipe_ingredients_list:
+                    counter.update(ingredient_id_quantity_pair)
+
+            # Make a copy of the Counter dict to avoid iterative modification over the same object
+            counter_copy = counter.copy()
+
+            # Pull all the ingredients from the DB to get their names later on
+            all_ingredients = ingredient.get_all_ingredients()
+
+            # For every <<ingredient_id> <unit>> pair, replace <ingredient_id> for <ingredient_name>
+            for key, value in counter.items():
+                # Get the <ingredient_id> and its unit
+                ingredient_id_from_recipe, unit = key.split(" ")
+
+                # Get the reference for that id in the ingredients node from the DB
+                ingredients_recipe_id_ref = all_ingredients.get(ingredient_id_from_recipe)
+
+                # If the <ingredient_id> is in the node reference
+                if ingredients_recipe_id_ref:
+                    # Get its name
+                    ingredient_name = ingredients_recipe_id_ref.get("name")
+
+                    # Replace <ingredient_id> for <ingredient_name>
+                    counter_copy["{} {}".format(ingredient_name, unit)] = counter_copy.pop(key)
+
+            return jsonify(counter_copy)
+
+    except ValidationError as e:
+        return jsonify(e)
 #
 #
 # @app.route('/recipes/post/from_local/ods', methods=['POST'])

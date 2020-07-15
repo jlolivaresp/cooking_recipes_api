@@ -5,7 +5,7 @@ from flask import request, jsonify, render_template, send_from_directory
 from jsonschema import ValidationError
 
 from app import app
-from app.src.controller.schema_validations import ModelSchema
+from app.src.controller.schema_validations import ModelSchema, ApiSchema
 from app.src.errors import validation_error, reference_not_found_error, element_already_exists_error
 from app.src.model.ingredient import Ingredient
 from app.src.model.model_constants import NEW_UNIT_REF, NEW_SUPERMARKET_REF, GENERAL_ID_REF, RECIPE_SUB_NODE_INGREDIENTS_REF, \
@@ -20,6 +20,7 @@ ingredient = Ingredient()
 recipe = Recipe()
 unit = Unit()
 model_schema = ModelSchema()
+api_schema = ApiSchema()
 supermarket = Supermarket()
 
 
@@ -42,12 +43,13 @@ def units():
             return jsonify(unit.get_unit_list())
 
         elif request.method == 'POST':
-            # TODO Validate request
+            api_schema.add_or_delete_new_unit_request_schema(request.get_json())
             req_json = request.get_json().get(NEW_UNIT_REF)
 
             return unit.add_unit(req_json), 201
 
         elif request.method == 'DELETE':
+            api_schema.add_or_delete_new_unit_request_schema(request.get_json())
             req_json = request.get_json().get(NEW_UNIT_REF)
 
             return jsonify(unit.delete_unit(req_json))
@@ -66,11 +68,13 @@ def supermarkets():
             return jsonify(supermarket.get_supermarket_list())
 
         elif request.method == 'POST':
+            api_schema.add_or_delete_new_supermarket_request_schema(request.get_json())
             req_json = request.get_json().get(NEW_SUPERMARKET_REF)
 
             return supermarket.add_supermarket(req_json), 201
 
         elif request.method == 'DELETE':
+            api_schema.add_or_delete_new_supermarket_request_schema(request.get_json())
             req_json = request.get_json().get(NEW_SUPERMARKET_REF)
 
             return jsonify(supermarket.delete_supermarket(req_json))
@@ -92,16 +96,17 @@ def ingredients_all():
 
 
 @app.route('/ingredients/single', methods=['POST', 'GET', 'PUT', 'DELETE'])
-def ingredients_single(_ingredient_id: str = None):
+def ingredients_single():
     try:
-        if _ingredient_id:
-            ingredient_id = _ingredient_id
-
-        elif request.method == 'POST':
-            ingredient_id = request.get_json().get(GENERAL_ID_REF)
+        if request.method == 'POST':
+            ingredient_dict = request.get_json()
+            model_schema.add_ingredient_request_schema(ingredient_dict)
+            return jsonify(ingredient.add_ingredient(ingredient_dict)), 201
 
         elif request.method == 'GET':
+            model_schema.get_delete_node_request_schema(request.args)
             ingredient_id = request.args.get(GENERAL_ID_REF)
+            return jsonify(ingredient.get_ingredient(ingredient_id))
 
         elif request.method == 'PUT':
             req_json = request.get_json()
@@ -116,33 +121,11 @@ def ingredients_single(_ingredient_id: str = None):
             ingredient_id = request.get_json().get(GENERAL_ID_REF)
             return jsonify(ingredient.delete_ingredient(ingredient_id))
 
-        else:
-            ingredient_id = ""
-
-        model_schema.get_delete_node_request_schema(request.get_json())
-        return jsonify(ingredient.get_ingredient(ingredient_id))
-
     except ValidationError as e:
         return validation_error(e)
 
     except ReferenceNotFoundException as e:
         return reference_not_found_error(e)
-
-
-@app.route('/ingredients/new', methods=['POST'])
-def ingredients_new(ingredients_dict: dict = None):
-    try:
-        if ingredients_dict:
-            req_json = ingredients_dict
-        else:
-            req_json = request.get_json()
-
-        if request.method == 'POST':
-            model_schema.add_ingredient_request_schema(req_json)
-            return ingredient.add_ingredient(req_json), 201
-
-    except ValidationError as e:
-        return validation_error(e)
 
     except ElementAlreadyExistsError as e:
         return element_already_exists_error(e)
@@ -158,27 +141,26 @@ def recipes_all():
 
 
 @app.route('/recipes/single', methods=['POST', 'GET', 'PUT', 'DELETE'])
-def recipes_single(_recipe_id: str = None):
+def recipes_single():
     try:
-        if _recipe_id:
-            recipe_id = _recipe_id
-
-        elif request.method == 'POST':
-            recipe_id = request.get_json().get(GENERAL_ID_REF)
+        if request.method == 'POST':
+            recipe_dict = request.get_json()
+            model_schema.add_recipe_request_schema(recipe_dict)
+            return jsonify(recipe.add_recipe(recipe_dict)), 201
 
         elif request.method == 'GET':
+            model_schema.get_delete_node_request_schema(request.args)
             recipe_id = request.args.get(GENERAL_ID_REF)
+            return jsonify(recipe.get_recipe(recipe_id))
 
         elif request.method == 'PUT':
             req_json = request.get_json()
-
-            old = recipe.get_recipe(*req_json)
-            update_dict = update_node_array_formatter(str(*req_json), old, req_json.get(*req_json))
-            model_schema.update_node_field_request_schema(update_dict)
-            return recipe.update_recipe(update_dict)
+            # TODO validate
+            # model_schema.update_node_field_request_schema(req_json)
+            return recipe.update_recipe(req_json)
 
         elif request.method == 'DELETE':
-            # TODO validate request
+            model_schema.get_delete_node_request_schema(request.get_json())
             recipe_id = request.get_json().get(GENERAL_ID_REF)
             return jsonify(recipe.delete_recipe(recipe_id))
 
@@ -194,25 +176,8 @@ def recipes_single(_recipe_id: str = None):
     except ReferenceNotFoundException as e:
         return reference_not_found_error(e)
 
-
-@app.route('/recipes/new', methods=['POST'])
-def recipes_new(recipes_dict: dict = None):
-    if request.method == 'POST':
-        if recipes_dict:
-            req_json = recipes_dict
-        else:
-            req_json = request.get_json()
-
-        try:
-            model_schema.add_recipe_request_schema(req_json)
-
-            return recipe.add_recipe(req_json), 201
-
-        except ValidationError as e:
-            return jsonify(e)
-
-        except ElementAlreadyExistsError as e:
-            return jsonify(e.error_dict)
+    except ElementAlreadyExistsError as e:
+        return jsonify(e.error_dict)
 
 
 @app.route('/recipes/summary', methods=['POST'])

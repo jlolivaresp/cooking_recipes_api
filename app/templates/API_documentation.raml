@@ -76,12 +76,12 @@ types:
           {
             "type": "object",
             "properties": {
-                "unit": {"type": ["string", "array"]}
+                "units": {"type": ["string", "array"]}
             }
           }
         example:
           {
-            "unit": "g"
+            "units": "g"
           }
     responses: # declare a response
       201: # HTTP status code
@@ -105,12 +105,12 @@ types:
           {
             "type": "object",
             "properties": {
-                "unit": {"type": ["string", "array"]}
+                "units": {"type": ["string", "array"]}
             }
           }
         example:
           {
-            "unit": "g"
+            "units": "g"
           }
     responses: # declare a response
       200: # HTTP status code
@@ -159,12 +159,12 @@ types:
           {
             "type": "object",
             "properties": {
-                "unit": {"type": ["string", "array"]}
+                "supermarkets": {"type": ["string", "array"]}
             }
           }
         example:
           {
-            "unit": "g"
+            "supermarkets": "aldi"
           }
     responses: # declare a response
       201: # HTTP status code
@@ -172,8 +172,8 @@ types:
           application/json: # media type
             type: | # structural definition of a response (schema or type)
               {
-                "units": [
-                    "g"
+                "supermarkets": [
+                    "aldi"
                 ]
               }
       400:
@@ -188,12 +188,12 @@ types:
           {
           "type": "object",
             "properties": {
-                "unit": {"type": ["string", "array"]}
+                "supermarkets": {"type": ["string", "array"]}
             }
           }
         example:
           {
-            "unit": "g"
+            "supermarkets": "aldi"
           }
     responses: # declare a response
       200: # HTTP status code
@@ -201,8 +201,8 @@ types:
           application/json: # media type
             type: | # structural definition of a response (schema or type)
               {
-                "units": [
-                    "g"
+                "supermarkets": [
+                    "aldi"
                 ]
               }
       400:
@@ -230,8 +230,8 @@ types:
                     "properties": {
                       "name": {"type": "string"},
                       "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                      "supermarkets": {"type": "array"},
+                      "units": {"type": "array"}
                       }
                     }
                   }
@@ -241,14 +241,14 @@ types:
                   "-M9HqlUQnD7MS-W6kySH": {
                     "name": "Onion",
                     "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
+                    "supermarkets": ["Aldi", "Edeka"],
+                    "units": ["u", "g"]
                   },
                   "-M9HqlUQnD7MS-DS53cKJ": {
                     "name": "...",
                     "category": "...",
-                    "supermarket": [],
-                    "unit": []
+                    "supermarkets": [],
+                    "units": []
                   },
                   "-M9HqlUQnD7MS-LKH4c8": {},
                   "-M9HqlUQnHJGF-5KJHF4": {}
@@ -275,8 +275,8 @@ types:
                     "properties": {
                       "name": {"type": "string"},
                       "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                      "supermarkets": {"type": "array"},
+                      "units": {"type": "array"}
                       }
                     }
                   }
@@ -286,8 +286,8 @@ types:
                   "-M9HqlUQnD7MS-W6kySH": {
                     "name": "Onion",
                     "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
+                    "supermarkets": ["Aldi", "Edeka"],
+                    "units": ["u", "g"]
                   }
                 }
         400:
@@ -305,12 +305,18 @@ types:
             {
               "type": "object",
               "properties": {
-                "id": {"type": "string"}
+                  "name": {"type": "string"},
+                  "units": {"type": ["array", "string"]},
+                  "supermarkets": {"type": ["array", "string"]},
+                  "category": {"type": "string"}
               }
             }
           example:
             {
-              "id": "-M9HqlUQnD7MS-W6kySH"
+              "name": "pepper",
+              "units": "tsp",
+              "supermarkets": "chinos",
+              "category": "spices"
             }
       responses: # declare a response
         200: # HTTP status code
@@ -325,8 +331,8 @@ types:
                     "properties": {
                       "name": {"type": "string"},
                       "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                      "supermarkets": {"type": "array"},
+                      "units": {"type": "array"}
                       }
                     }
                   }
@@ -336,14 +342,18 @@ types:
                   "-M9HqlUQnD7MS-W6kySH": {
                     "name": "Onion",
                     "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
+                    "supermarkets": ["Aldi", "Edeka"],
+                    "units": ["u", "g"]
                   }
                 }
         404:
           body: # declare content of response
             application/json: # media type
               type: ReferenceNotFoundError404
+        409:
+          body:
+            application/json:
+              type: ElementAlreadyExistsError409
 
     put:
       body:
@@ -355,8 +365,8 @@ types:
               "patternProperties": {
               "^.*$": {
                 "properties": {
-                  "supermarket": {"type": "array"},
-                  "unit": {"type": "array"}
+                  "supermarkets": {"type": "array"},
+                  "units": {"type": "array"}
                   }
                 }
               }
@@ -364,8 +374,8 @@ types:
           example:
             {
               "-M9HqlUQnD7MS-W6kySH": {
-                "supermarket": ["Aldi"],
-                "unit": ["u"]
+                "supermarkets": ["Aldi"],
+                "units": ["u"]
               }
             }
       responses: # declare a response
@@ -379,8 +389,8 @@ types:
                   "patternProperties": {
                   "^.*$": {
                     "properties": {
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                      "supermarkets": {"type": "array"},
+                      "units": {"type": "array"}
                       }
                     }
                   }
@@ -388,8 +398,8 @@ types:
               example: # example how a response looks like
                 {
                   "-M9HqlUQnD7MS-W6kySH": {
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
+                    "supermarkets": ["Aldi", "Edeka"],
+                    "units": ["u", "g"]
                   }
                 }
         400:
@@ -428,8 +438,8 @@ types:
                     "properties": {
                       "name": {"type": "string"},
                       "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                      "supermarkets": {"type": "array"},
+                      "units": {"type": "array"}
                       }
                     }
                   }
@@ -439,8 +449,8 @@ types:
                   "-M9HqlUQnD7MS-W6kySH": {
                     "name": "Onion",
                     "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
+                    "supermarkets": ["Aldi", "Edeka"],
+                    "units": ["u", "g"]
                   }
                 }
         400:
@@ -451,64 +461,6 @@ types:
           body: # declare content of response
             application/json: # media type
               type: ReferenceNotFoundError404
-
-  /new:
-    post:
-      body:
-        application/json:
-          type: |
-              {
-                "type": "object",
-                "properties": {
-                  "name": {"type": "string"},
-                  "category": {"type": "string"},
-                  "supermarket": {"type": "array"},
-                  "unit": {"type": "array"}
-                }
-              }
-          example:
-            {
-              "name": "Onion",
-              "category": "Fruit/Vegetable",
-              "supermarket": ["Aldi", "Edeka"],
-              "unit": ["kg", "u"]
-            }
-      responses: # declare a response
-        201: # HTTP status code
-          body: # declare content of response
-            application/json: # media type
-              type: | # structural definition of a response (schema or type)
-                {
-                  "title": "Ingredients response",
-                  "type": "object",
-                  "patternProperties": {
-                  "^.*$": {
-                    "properties": {
-                      "name": {"type": "string"},
-                      "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
-                      }
-                    }
-                  }
-                }
-              example: # example how a response looks like
-                {
-                  "-M9HqlUQnD7MS-W6kySH": {
-                    "name": "Onion",
-                    "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
-                  }
-                }
-        400:
-          body:
-            application/json:
-              type: ValidationError400
-        409:
-          body:
-            application/json:
-              type: ElementAlreadyExistsError409
 
 /recipes:
   description: URI for everything related to the Recipes class
@@ -537,7 +489,7 @@ types:
                               "anyOf": [{"type": "object"}],
                               "properties": {
                                 "quantity": {"type": "number"},
-                                "unit": {"type": "string"}
+                                "units": {"type": "string"}
                               }
                             }
                           }
@@ -555,7 +507,7 @@ types:
                     "ingredients": {
                       "-M9HqlJkjgu85S-HGbl58": {
                         "quantity": 2,
-                        "unit": g
+                        "units": g
                       }
                     }
                   },
@@ -598,7 +550,7 @@ types:
                               "anyOf": [{"type": "object"}],
                               "properties": {
                                 "quantity": {"type": "number"},
-                                "unit": {"type": "string"}
+                                "units": {"type": "string"}
                               }
                             }
                           }
@@ -616,11 +568,11 @@ types:
                     "ingredients": {
                       "-M9HqlJkjgu85S-HGbl58": {
                         "quantity": 2,
-                        "unit": g
+                        "units": g
                       },
                       "-M9HqlUQnD7MS-DS53cKJ": {
                         "quantity": 5,
-                        "unit": "cups"
+                        "units": "cups"
                       },
                       "-M9HqlUQnD7MS-LKH4c8": {},
                       "-M9HqlUQnHJGF-5KJHF4": {}
@@ -638,21 +590,10 @@ types:
             {
               "type": "object",
               "properties": {
-                "id": {"type": "string"}
-              }
-            }
-          example:
-            {
-              "id": "-M9HqlUQnD7MS-W6kySH"
-            }
-      responses: # declare a response
-        200: # HTTP status code
-          body: # declare content of response
-            application/json: # media type
-              type: | # structural definition of a response (schema or type)
-                {
-                  "title": "Ingredients response",
-                  "type": "object",
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "link": {"type": "string"},
+                "ingredients": {
                   "patternProperties": {
                     "^.*$": {
                       "properties": {
@@ -666,7 +607,7 @@ types:
                               "anyOf": [{"type": "object"}],
                               "properties": {
                                 "quantity": {"type": "number"},
-                                "unit": {"type": "string"}
+                                "units": {"type": "string"}
                               }
                             }
                           }
@@ -674,35 +615,149 @@ types:
                       }
                     }
                   }
-                }
-              example: # example how a response looks like
-                {
-                  "-M9HqlUQnD7MS-W6kySH": {
-                    "name": "Pizza",
-                    "description": "Supermarket pizza with home vegetables",
-                    "link": "http://www.mypizza.com",
-                    "ingredients": {
-                      "-M9HqlJkjgu85S-HGbl58": {
-                        "quantity": 2,
-                        "unit": g
-                      },
-                      "-M9HqlUQnD7MS-DS53cKJ": {
-                        "quantity": 5,
-                        "unit": "cups"
-                      },
-                      "-M9HqlUQnD7MS-LKH4c8": {},
-                      "-M9HqlUQnHJGF-5KJHF4": {}
+                },
+                "new_ingredients": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "name": {"type": "string"},
+                      "category": {"type": "string"},
+                      "supermarkets": {"type": "string"},
+                      "quantity": {"type": "number"},
+                      "units": {"type": "string"}
                     }
                   }
                 }
-        400:
+              }
+            }
+          example:
+            {
+              "name": "Pizza",
+              "description": "Supermarket pizza with home vegetables",
+              "link": "http://www.mypizza.com",
+              "ingredients": {
+                "-M9HqlJkjgu85S-HGbl58": {
+                    "quantity": 2,
+                    "units": "g"
+                },
+                "-M9HqlUQnD7MS-DS53cKJ": {
+                    "quantity": 5,
+                    "units": "cups"
+                },
+                "-M9HqlUQnD7MS-LKH4c8": {
+                    "quantity": 7,
+                    "units": "hand"
+                },
+                "-M9HqlUQnHJGF-5KJHF4": {
+                    "quantity": 4,
+                    "units": "piles"
+                }
+              },
+              "new_ingredients": [
+                {
+                  "name": "Onion",
+                  "category": "Vegetables/Fruits",
+                  "supermarkets": "aldi",
+                  "quantity": 4,
+                  "units": "piles"
+                },
+                {
+                  "name": "Tomato",
+                  "category": "Vegetables/Fruits",
+                  "supermarkets": "aldi",
+                  "quantity": 7,
+                  "units": "tons"
+                }
+              ]
+            }
+      responses: # declare a response
+        201: # HTTP status code
           body: # declare content of response
             application/json: # media type
-              type: ValidationError400
-        404:
-          body: # declare content of response
-            application/json: # media type
-              type: ReferenceNotFoundError404
+              type: | # structural definition of a response (schema or type)
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                    "link": {"type": "string"},
+                    "ingredients": {
+                      "patternProperties": {
+                        "^.*$": {
+                          "properties": {
+                            "name": {"type": "string"},
+                            "description": {"type": "string"},
+                            "link": {"type": "string"},
+                            "ingredients": {
+                              "type": "object",
+                              "patternProperties": {
+                                "^.*$": {
+                                  "anyOf": [{"type": "object"}],
+                                  "properties": {
+                                    "quantity": {"type": "number"},
+                                    "units": {"type": "string"}
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "new_ingredients": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "name": {"type": "string"},
+                          "category": {"type": "string"},
+                          "supermarkets": {"type": "string"},
+                          "quantity": {"type": "number"},
+                          "units": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              example: # example how a response looks like
+                {
+                  "name": "Pizza",
+                  "description": "Supermarket pizza with home vegetables",
+                  "link": "http://www.mypizza.com",
+                  "ingredients": {
+                    "-M9HqlJkjgu85S-HGbl58": {
+                        "quantity": 2,
+                        "units": "g"
+                    },
+                    "-M9HqlUQnD7MS-DS53cKJ": {
+                        "quantity": 5,
+                        "units": "cups"
+                    },
+                    "-M9HqlUQnD7MS-LKH4c8": {
+                        "quantity": 7,
+                        "units": "hands"
+                    },
+                    "-M9HqlUQnHJGF-5KJHF4": {
+                        "quantity": 4,
+                        "units": "piles"
+                    }
+                  },
+                  "new_ingredients": [
+                    {
+                      "name": "Onion",
+                      "category": "Vegetables/Fruits",
+                      "supermarkets": "aldi",
+                      "quantity": 4,
+                      "units": "piles"
+                    },
+                    {
+                      "name": "Tomato",
+                      "category": "Vegetables/Fruits",
+                      "supermarkets": "aldi",
+                      "quantity": 7,
+                      "units": "tons"
+                    }
+                  ]
+                }
 
     put:
       body:
@@ -714,8 +769,8 @@ types:
               "patternProperties": {
               "^.*$": {
                 "properties": {
-                  "supermarket": {"type": "array"},
-                  "unit": {"type": "array"}
+                  "supermarkets": {"type": "array"},
+                  "units": {"type": "array"}
                   }
                 }
               }
@@ -723,8 +778,8 @@ types:
           example:
             {
               "-M9HqlUQnD7MS-W6kySH": {
-                "supermarket": ["Aldi"],
-                "unit": ["u"]
+                "supermarkets": ["Aldi"],
+                "units": ["u"]
               }
             }
       responses: # declare a response
@@ -738,8 +793,8 @@ types:
                   "patternProperties": {
                   "^.*$": {
                     "properties": {
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                      "supermarkets": {"type": "array"},
+                      "units": {"type": "array"}
                       }
                     }
                   }
@@ -747,8 +802,8 @@ types:
               example: # example how a response looks like
                 {
                   "-M9HqlUQnD7MS-W6kySH": {
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
+                    "supermarkets": ["Aldi", "Edeka"],
+                    "units": ["u", "g"]
                   }
                 }
         400:
@@ -787,8 +842,8 @@ types:
                     "properties": {
                       "name": {"type": "string"},
                       "category": {"type": "string"},
-                      "supermarket": {"type": "array"},
-                      "unit": {"type": "array"}
+                      "supermarkets": {"type": "array"},
+                      "units": {"type": "array"}
                       }
                     }
                   }
@@ -798,8 +853,8 @@ types:
                   "-M9HqlUQnD7MS-W6kySH": {
                     "name": "Onion",
                     "category": "Vegetable/Fruit",
-                    "supermarket": ["Aldi", "Edeka"],
-                    "unit": ["u", "g"]
+                    "supermarkets": ["Aldi", "Edeka"],
+                    "units": ["u", "g"]
                   }
                 }
         400:
@@ -810,191 +865,6 @@ types:
           body: # declare content of response
             application/json: # media type
               type: ReferenceNotFoundError404
-
-  /new:
-    post:
-      body:
-        application/json:
-          type: |
-            {
-              "type": "object",
-              "properties": {
-                "name": {"type": "string"},
-                "description": {"type": "string"},
-                "link": {"type": "string"},
-                "ingredients": {
-                  "patternProperties": {
-                    "^.*$": {
-                      "properties": {
-                        "name": {"type": "string"},
-                        "description": {"type": "string"},
-                        "link": {"type": "string"},
-                        "ingredients": {
-                          "type": "object",
-                          "patternProperties": {
-                            "^.*$": {
-                              "anyOf": [{"type": "object"}],
-                              "properties": {
-                                "quantity": {"type": "number"},
-                                "unit": {"type": "string"}
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "new_ingredients": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "name": {"type": "string"},
-                      "category": {"type": "string"},
-                      "supermarket": {"type": "string"},
-                      "quantity": {"type": "number"},
-                      "unit": {"type": "string"}
-                    }
-                  }
-                }
-              }
-            }
-          example:
-            {
-              "name": "Pizza",
-              "description": "Supermarket pizza with home vegetables",
-              "link": "http://www.mypizza.com",
-              "ingredients": {
-                "-M9HqlJkjgu85S-HGbl58": {
-                    "quantity": 2,
-                    "unit": "g"
-                },
-                "-M9HqlUQnD7MS-DS53cKJ": {
-                    "quantity": 5,
-                    "unit": "cups"
-                },
-                "-M9HqlUQnD7MS-LKH4c8": {
-                    "quantity": 7,
-                    "unit": "hand"
-                },
-                "-M9HqlUQnHJGF-5KJHF4": {
-                    "quantity": 4,
-                    "unit": "piles"
-                }
-              },
-              "new_ingredients": [
-                {
-                  "name": "Onion",
-                  "category": "Vegetables/Fruits",
-                  "supermarket": "aldi",
-                  "quantity": 4,
-                  "unit": "piles"
-                },
-                {
-                  "name": "Tomato",
-                  "category": "Vegetables/Fruits",
-                  "supermarket": "aldi",
-                  "quantity": 7,
-                  "unit": "tons"
-                }
-              ]
-            }
-      responses: # declare a response
-        201: # HTTP status code
-          body: # declare content of response
-            application/json: # media type
-              type: | # structural definition of a response (schema or type)
-                {
-                  "type": "object",
-                  "properties": {
-                    "name": {"type": "string"},
-                    "description": {"type": "string"},
-                    "link": {"type": "string"},
-                    "ingredients": {
-                      "patternProperties": {
-                        "^.*$": {
-                          "properties": {
-                            "name": {"type": "string"},
-                            "description": {"type": "string"},
-                            "link": {"type": "string"},
-                            "ingredients": {
-                              "type": "object",
-                              "patternProperties": {
-                                "^.*$": {
-                                  "anyOf": [{"type": "object"}],
-                                  "properties": {
-                                    "quantity": {"type": "number"},
-                                    "unit": {"type": "string"}
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "new_ingredients": {
-                      "type": "array",
-                      "items": {
-                        "properties": {
-                          "name": {"type": "string"},
-                          "category": {"type": "string"},
-                          "supermarket": {"type": "string"},
-                          "quantity": {"type": "number"},
-                          "unit": {"type": "string"}
-                        }
-                      }
-                    }
-                  }
-                }
-              example: # example how a response looks like
-                {
-                  "name": "Pizza",
-                  "description": "Supermarket pizza with home vegetables",
-                  "link": "http://www.mypizza.com",
-                  "ingredients": {
-                    "-M9HqlJkjgu85S-HGbl58": {
-                        "quantity": 2,
-                        "unit": "g"
-                    },
-                    "-M9HqlUQnD7MS-DS53cKJ": {
-                        "quantity": 5,
-                        "unit": "cups"
-                    },
-                    "-M9HqlUQnD7MS-LKH4c8": {
-                        "quantity": 7,
-                        "unit": "hands"
-                    },
-                    "-M9HqlUQnHJGF-5KJHF4": {
-                        "quantity": 4,
-                        "unit": "piles"
-                    }
-                  },
-                  "new_ingredients": [
-                    {
-                      "name": "Onion",
-                      "category": "Vegetables/Fruits",
-                      "supermarket": "aldi",
-                      "quantity": 4,
-                      "unit": "piles"
-                    },
-                    {
-                      "name": "Tomato",
-                      "category": "Vegetables/Fruits",
-                      "supermarket": "aldi",
-                      "quantity": 7,
-                      "unit": "tons"
-                    }
-                  ]
-                }
-        400:
-          body: # declare content of response
-            application/json: # media type
-              type: ValidationError400
-        409:
-          body: # declare content of response
-            application/json: # media type
-              type: ElementAlreadyExistsError409
 
   /summary:
     post:

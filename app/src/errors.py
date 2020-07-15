@@ -5,11 +5,6 @@ from app.src.service.firebase import ReferenceNotFoundException, ElementAlreadyE
 from app import app
 
 
-@app.errorhandler(404)
-def not_found_error(error):
-    return render_template('404.html'), 404
-
-
 @app.errorhandler(ValidationError)
 def validation_error(e: ValidationError):
     response = jsonify(message=e.message, code=400)
@@ -19,11 +14,15 @@ def validation_error(e: ValidationError):
 
 @app.errorhandler(ReferenceNotFoundException)
 def reference_not_found_error(e: ReferenceNotFoundException):
-    return jsonify(e.error_dict)
+    response = jsonify(e.error_dict)
+    response.status_code = 404
+    return response
 
 
 @app.errorhandler(ElementAlreadyExistsError)
 def element_already_exists_error(e: ElementAlreadyExistsError):
+    response = jsonify(e.error_dict)
+    response.status_code = 409
     return jsonify(e.error_dict)
 
 

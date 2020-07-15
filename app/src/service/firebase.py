@@ -77,7 +77,9 @@ class Firebase:
 def update_node_array_formatter(node_id: str, old: dict, new: dict):
     formatted_dict = dict()
     for key, value in new.items():
-        new_value = list(set(old.get(key) + [value]))
+        if isinstance(value, str):
+            value = [value]
+        new_value = list(set(old.get(key) + value))
         formatted_dict = dict(**formatted_dict,
                               **{'{}/{}'.format(node_id, key): new_value})
     return formatted_dict

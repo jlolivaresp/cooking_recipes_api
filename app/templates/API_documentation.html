@@ -188,11 +188,11 @@ pre code {
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="units_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/units</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#units_post_request" data-toggle="tab">Request</a></li><li><a href="#units_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="units_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "type": "object",
   "properties": {
-      "unit": {"type": ["string", "array"]}
+      "units": {"type": ["string", "array"]}
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "unit": "g"
+  "units": "g"
 }</code></pre></div></div><div class="tab-pane" id="units_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "units": [
       "g"
@@ -204,11 +204,11 @@ pre code {
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="units_delete"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent"></span>/units</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#units_delete_request" data-toggle="tab">Request</a></li><li><a href="#units_delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="units_delete_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "type": "object",
   "properties": {
-      "unit": {"type": ["string", "array"]}
+      "units": {"type": ["string", "array"]}
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "unit": "g"
+  "units": "g"
 }</code></pre></div></div><div class="tab-pane" id="units_delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "units": [
       "g"
@@ -232,14 +232,14 @@ pre code {
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="supermarkets_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/supermarkets</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#supermarkets_post_request" data-toggle="tab">Request</a></li><li><a href="#supermarkets_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="supermarkets_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "type": "object",
   "properties": {
-      "unit": {"type": ["string", "array"]}
+      "supermarkets": {"type": ["string", "array"]}
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "unit": "g"
+  "supermarkets": "aldi"
 }</code></pre></div></div><div class="tab-pane" id="supermarkets_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "units": [
-      "g"
+  "supermarkets": [
+      "aldi"
   ]
 }
 </code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
@@ -248,14 +248,14 @@ pre code {
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="supermarkets_delete"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent"></span>/supermarkets</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#supermarkets_delete_request" data-toggle="tab">Request</a></li><li><a href="#supermarkets_delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="supermarkets_delete_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
 "type": "object",
   "properties": {
-      "unit": {"type": ["string", "array"]}
+      "supermarkets": {"type": ["string", "array"]}
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "unit": "g"
+  "supermarkets": "aldi"
 }</code></pre></div></div><div class="tab-pane" id="supermarkets_delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "units": [
-      "g"
+  "supermarkets": [
+      "aldi"
   ]
 }
 </code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
@@ -269,8 +269,8 @@ pre code {
     "properties": {
       "name": {"type": "string"},
       "category": {"type": "string"},
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
@@ -279,11 +279,11 @@ pre code {
   "-M9HqlUQnD7MS-W6kySH": {
     "name": "Onion",
     "category": "Vegetable/Fruit",
-    "supermarket": [
+    "supermarkets": [
       "Aldi",
       "Edeka"
     ],
-    "unit": [
+    "units": [
       "u",
       "g"
     ]
@@ -291,8 +291,8 @@ pre code {
   "-M9HqlUQnD7MS-DS53cKJ": {
     "name": "...",
     "category": "...",
-    "supermarket": [],
-    "unit": []
+    "supermarkets": [],
+    "units": []
   },
   "-M9HqlUQnD7MS-LKH4c8": {},
   "-M9HqlUQnHJGF-5KJHF4": {}
@@ -307,8 +307,8 @@ pre code {
     "properties": {
       "name": {"type": "string"},
       "category": {"type": "string"},
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
@@ -317,11 +317,11 @@ pre code {
   "-M9HqlUQnD7MS-W6kySH": {
     "name": "Onion",
     "category": "Vegetable/Fruit",
-    "supermarket": [
+    "supermarkets": [
       "Aldi",
       "Edeka"
     ],
-    "unit": [
+    "units": [
       "u",
       "g"
     ]
@@ -335,11 +335,17 @@ pre code {
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="ingredients_single_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/ingredients</span>/single</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#ingredients_single_post_request" data-toggle="tab">Request</a></li><li><a href="#ingredients_single_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="ingredients_single_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "type": "object",
   "properties": {
-    "id": {"type": "string"}
+      "name": {"type": "string"},
+      "units": {"type": ["array", "string"]},
+      "supermarkets": {"type": ["array", "string"]},
+      "category": {"type": "string"}
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "id": "-M9HqlUQnD7MS-W6kySH"
+  "name": "pepper",
+  "units": "tsp",
+  "supermarkets": "chinos",
+  "category": "spices"
 }</code></pre></div></div><div class="tab-pane" id="ingredients_single_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "title": "Ingredients response",
   "type": "object",
@@ -348,8 +354,8 @@ pre code {
     "properties": {
       "name": {"type": "string"},
       "category": {"type": "string"},
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
@@ -358,11 +364,11 @@ pre code {
   "-M9HqlUQnD7MS-W6kySH": {
     "name": "Onion",
     "category": "Vegetable/Fruit",
-    "supermarket": [
+    "supermarkets": [
       "Aldi",
       "Edeka"
     ],
-    "unit": [
+    "units": [
       "u",
       "g"
     ]
@@ -370,24 +376,27 @@ pre code {
 }</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "code": 400,
   "message": "Reference not found in the data base"
+}</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "code": 409,
+  "message": "The element already exists in the database"
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="ingredients_single_put"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/ingredients</span>/single</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#ingredients_single_put_request" data-toggle="tab">Request</a></li><li><a href="#ingredients_single_put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="ingredients_single_put_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "title": "Ingredients response",
   "type": "object",
   "patternProperties": {
   "^.*$": {
     "properties": {
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "-M9HqlUQnD7MS-W6kySH": {
-    "supermarket": [
+    "supermarkets": [
       "Aldi"
     ],
-    "unit": [
+    "units": [
       "u"
     ]
   }
@@ -397,19 +406,19 @@ pre code {
   "patternProperties": {
   "^.*$": {
     "properties": {
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "-M9HqlUQnD7MS-W6kySH": {
-    "supermarket": [
+    "supermarkets": [
       "Aldi",
       "Edeka"
     ],
-    "unit": [
+    "units": [
       "u",
       "g"
     ]
@@ -436,8 +445,8 @@ pre code {
     "properties": {
       "name": {"type": "string"},
       "category": {"type": "string"},
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
@@ -446,11 +455,11 @@ pre code {
   "-M9HqlUQnD7MS-W6kySH": {
     "name": "Onion",
     "category": "Vegetable/Fruit",
-    "supermarket": [
+    "supermarkets": [
       "Aldi",
       "Edeka"
     ],
-    "unit": [
+    "units": [
       "u",
       "g"
     ]
@@ -461,59 +470,6 @@ pre code {
 }</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "code": 400,
   "message": "Reference not found in the data base"
-}</code></pre></div></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_ingredients_new"><span class="parent">/ingredients</span>/new</a> <span class="methods"><a href="#ingredients_new_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_ingredients_new" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#ingredients_new_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="ingredients_new_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/ingredients</span>/new</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#ingredients_new_post_request" data-toggle="tab">Request</a></li><li><a href="#ingredients_new_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="ingredients_new_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "type": "object",
-  "properties": {
-    "name": {"type": "string"},
-    "category": {"type": "string"},
-    "supermarket": {"type": "array"},
-    "unit": {"type": "array"}
-  }
-}
-</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "name": "Onion",
-  "category": "Fruit/Vegetable",
-  "supermarket": [
-    "Aldi",
-    "Edeka"
-  ],
-  "unit": [
-    "kg",
-    "u"
-  ]
-}</code></pre></div></div><div class="tab-pane" id="ingredients_new_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "title": "Ingredients response",
-  "type": "object",
-  "patternProperties": {
-  "^.*$": {
-    "properties": {
-      "name": {"type": "string"},
-      "category": {"type": "string"},
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
-      }
-    }
-  }
-}
-</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "-M9HqlUQnD7MS-W6kySH": {
-    "name": "Onion",
-    "category": "Vegetable/Fruit",
-    "supermarket": [
-      "Aldi",
-      "Edeka"
-    ],
-    "unit": [
-      "u",
-      "g"
-    ]
-  }
-}</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "code": 400,
-  "message": "&#39;u&#39; is not of type &#39;array&#39;"
-}</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "code": 409,
-  "message": "The element already exists in the database"
 }</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="recipes" class="panel-title">/recipes</h3></div><div class="panel-body"><div class="top-resource-description"><p>URI for everything related to the Recipes class</p></div><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_recipes_all"><span class="parent">/recipes</span>/all</a> <span class="methods"><a href="#recipes_all_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_recipes_all" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#recipes_all_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="recipes_all_get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/recipes</span>/all</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#recipes_all_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="recipes_all_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "title": "Recipes response",
   "type": "object",
@@ -530,7 +486,7 @@ pre code {
               "anyOf": [{"type": "object"}],
               "properties": {
                 "quantity": {"type": "number"},
-                "unit": {"type": "string"}
+                "units": {"type": "string"}
               }
             }
           }
@@ -547,7 +503,7 @@ pre code {
     "ingredients": {
       "-M9HqlJkjgu85S-HGbl58": {
         "quantity": 2,
-        "unit": "g"
+        "units": "g"
       }
     }
   },
@@ -578,7 +534,7 @@ pre code {
               "anyOf": [{"type": "object"}],
               "properties": {
                 "quantity": {"type": "number"},
-                "unit": {"type": "string"}
+                "units": {"type": "string"}
               }
             }
           }
@@ -595,11 +551,11 @@ pre code {
     "ingredients": {
       "-M9HqlJkjgu85S-HGbl58": {
         "quantity": 2,
-        "unit": "g"
+        "units": "g"
       },
       "-M9HqlUQnD7MS-DS53cKJ": {
         "quantity": 5,
-        "unit": "cups"
+        "units": "cups"
       },
       "-M9HqlUQnD7MS-LKH4c8": {},
       "-M9HqlUQnHJGF-5KJHF4": {}
@@ -611,78 +567,183 @@ pre code {
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="recipes_single_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/recipes</span>/single</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#recipes_single_post_request" data-toggle="tab">Request</a></li><li><a href="#recipes_single_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="recipes_single_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "type": "object",
   "properties": {
-    "id": {"type": "string"}
-  }
-}
-</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "id": "-M9HqlUQnD7MS-W6kySH"
-}</code></pre></div></div><div class="tab-pane" id="recipes_single_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "title": "Ingredients response",
-  "type": "object",
-  "patternProperties": {
-    "^.*$": {
-      "properties": {
-        "name": {"type": "string"},
-        "description": {"type": "string"},
-        "link": {"type": "string"},
-        "ingredients": {
-          "type": "object",
-          "patternProperties": {
-            "^.*$": {
-              "anyOf": [{"type": "object"}],
-              "properties": {
-                "quantity": {"type": "number"},
-                "unit": {"type": "string"}
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "link": {"type": "string"},
+    "ingredients": {
+      "patternProperties": {
+        "^.*$": {
+          "properties": {
+            "name": {"type": "string"},
+            "description": {"type": "string"},
+            "link": {"type": "string"},
+            "ingredients": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "anyOf": [{"type": "object"}],
+                  "properties": {
+                    "quantity": {"type": "number"},
+                    "units": {"type": "string"}
+                  }
+                }
               }
             }
           }
+        }
+      }
+    },
+    "new_ingredients": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {"type": "string"},
+          "category": {"type": "string"},
+          "supermarkets": {"type": "string"},
+          "quantity": {"type": "number"},
+          "units": {"type": "string"}
         }
       }
     }
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "-M9HqlUQnD7MS-W6kySH": {
-    "name": "Pizza",
-    "description": "Supermarket pizza with home vegetables",
-    "link": "http://www.mypizza.com",
+  "name": "Pizza",
+  "description": "Supermarket pizza with home vegetables",
+  "link": "http://www.mypizza.com",
+  "ingredients": {
+    "-M9HqlJkjgu85S-HGbl58": {
+      "quantity": 2,
+      "units": "g"
+    },
+    "-M9HqlUQnD7MS-DS53cKJ": {
+      "quantity": 5,
+      "units": "cups"
+    },
+    "-M9HqlUQnD7MS-LKH4c8": {
+      "quantity": 7,
+      "units": "hand"
+    },
+    "-M9HqlUQnHJGF-5KJHF4": {
+      "quantity": 4,
+      "units": "piles"
+    }
+  },
+  "new_ingredients": [
+    {
+      "name": "Onion",
+      "category": "Vegetables/Fruits",
+      "supermarkets": "aldi",
+      "quantity": 4,
+      "units": "piles"
+    },
+    {
+      "name": "Tomato",
+      "category": "Vegetables/Fruits",
+      "supermarkets": "aldi",
+      "quantity": 7,
+      "units": "tons"
+    }
+  ]
+}</code></pre></div></div><div class="tab-pane" id="recipes_single_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
+  "type": "object",
+  "properties": {
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "link": {"type": "string"},
     "ingredients": {
-      "-M9HqlJkjgu85S-HGbl58": {
-        "quantity": 2,
-        "unit": "g"
-      },
-      "-M9HqlUQnD7MS-DS53cKJ": {
-        "quantity": 5,
-        "unit": "cups"
-      },
-      "-M9HqlUQnD7MS-LKH4c8": {},
-      "-M9HqlUQnHJGF-5KJHF4": {}
+      "patternProperties": {
+        "^.*$": {
+          "properties": {
+            "name": {"type": "string"},
+            "description": {"type": "string"},
+            "link": {"type": "string"},
+            "ingredients": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "anyOf": [{"type": "object"}],
+                  "properties": {
+                    "quantity": {"type": "number"},
+                    "units": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "new_ingredients": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {"type": "string"},
+          "category": {"type": "string"},
+          "supermarkets": {"type": "string"},
+          "quantity": {"type": "number"},
+          "units": {"type": "string"}
+        }
+      }
     }
   }
-}</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "code": 400,
-  "message": "&#39;u&#39; is not of type &#39;array&#39;"
-}</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "code": 400,
-  "message": "Reference not found in the data base"
+}
+</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "name": "Pizza",
+  "description": "Supermarket pizza with home vegetables",
+  "link": "http://www.mypizza.com",
+  "ingredients": {
+    "-M9HqlJkjgu85S-HGbl58": {
+      "quantity": 2,
+      "units": "g"
+    },
+    "-M9HqlUQnD7MS-DS53cKJ": {
+      "quantity": 5,
+      "units": "cups"
+    },
+    "-M9HqlUQnD7MS-LKH4c8": {
+      "quantity": 7,
+      "units": "hands"
+    },
+    "-M9HqlUQnHJGF-5KJHF4": {
+      "quantity": 4,
+      "units": "piles"
+    }
+  },
+  "new_ingredients": [
+    {
+      "name": "Onion",
+      "category": "Vegetables/Fruits",
+      "supermarkets": "aldi",
+      "quantity": 4,
+      "units": "piles"
+    },
+    {
+      "name": "Tomato",
+      "category": "Vegetables/Fruits",
+      "supermarkets": "aldi",
+      "quantity": 7,
+      "units": "tons"
+    }
+  ]
 }</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="recipes_single_put"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/recipes</span>/single</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#recipes_single_put_request" data-toggle="tab">Request</a></li><li><a href="#recipes_single_put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="recipes_single_put_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "title": "Ingredients response",
   "type": "object",
   "patternProperties": {
   "^.*$": {
     "properties": {
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "-M9HqlUQnD7MS-W6kySH": {
-    "supermarket": [
+    "supermarkets": [
       "Aldi"
     ],
-    "unit": [
+    "units": [
       "u"
     ]
   }
@@ -692,19 +753,19 @@ pre code {
   "patternProperties": {
   "^.*$": {
     "properties": {
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
 }
 </code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "-M9HqlUQnD7MS-W6kySH": {
-    "supermarket": [
+    "supermarkets": [
       "Aldi",
       "Edeka"
     ],
-    "unit": [
+    "units": [
       "u",
       "g"
     ]
@@ -731,8 +792,8 @@ pre code {
     "properties": {
       "name": {"type": "string"},
       "category": {"type": "string"},
-      "supermarket": {"type": "array"},
-      "unit": {"type": "array"}
+      "supermarkets": {"type": "array"},
+      "units": {"type": "array"}
       }
     }
   }
@@ -741,11 +802,11 @@ pre code {
   "-M9HqlUQnD7MS-W6kySH": {
     "name": "Onion",
     "category": "Vegetable/Fruit",
-    "supermarket": [
+    "supermarkets": [
       "Aldi",
       "Edeka"
     ],
-    "unit": [
+    "units": [
       "u",
       "g"
     ]
@@ -756,174 +817,6 @@ pre code {
 }</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
   "code": 400,
   "message": "Reference not found in the data base"
-}</code></pre></div></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_recipes_new"><span class="parent">/recipes</span>/new</a> <span class="methods"><a href="#recipes_new_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_recipes_new" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#recipes_new_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="recipes_new_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/recipes</span>/new</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#recipes_new_post_request" data-toggle="tab">Request</a></li><li><a href="#recipes_new_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="recipes_new_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "type": "object",
-  "properties": {
-    "name": {"type": "string"},
-    "description": {"type": "string"},
-    "link": {"type": "string"},
-    "ingredients": {
-      "patternProperties": {
-        "^.*$": {
-          "properties": {
-            "name": {"type": "string"},
-            "description": {"type": "string"},
-            "link": {"type": "string"},
-            "ingredients": {
-              "type": "object",
-              "patternProperties": {
-                "^.*$": {
-                  "anyOf": [{"type": "object"}],
-                  "properties": {
-                    "quantity": {"type": "number"},
-                    "unit": {"type": "string"}
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "new_ingredients": {
-      "type": "array",
-      "items": {
-        "properties": {
-          "name": {"type": "string"},
-          "category": {"type": "string"},
-          "supermarket": {"type": "string"},
-          "quantity": {"type": "number"},
-          "unit": {"type": "string"}
-        }
-      }
-    }
-  }
-}
-</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "name": "Pizza",
-  "description": "Supermarket pizza with home vegetables",
-  "link": "http://www.mypizza.com",
-  "ingredients": {
-    "-M9HqlJkjgu85S-HGbl58": {
-      "quantity": 2,
-      "unit": "g"
-    },
-    "-M9HqlUQnD7MS-DS53cKJ": {
-      "quantity": 5,
-      "unit": "cups"
-    },
-    "-M9HqlUQnD7MS-LKH4c8": {
-      "quantity": 7,
-      "unit": "hand"
-    },
-    "-M9HqlUQnHJGF-5KJHF4": {
-      "quantity": 4,
-      "unit": "piles"
-    }
-  },
-  "new_ingredients": [
-    {
-      "name": "Onion",
-      "category": "Vegetables/Fruits",
-      "supermarket": "aldi",
-      "quantity": 4,
-      "unit": "piles"
-    },
-    {
-      "name": "Tomato",
-      "category": "Vegetables/Fruits",
-      "supermarket": "aldi",
-      "quantity": 7,
-      "unit": "tons"
-    }
-  ]
-}</code></pre></div></div><div class="tab-pane" id="recipes_new_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
-  "type": "object",
-  "properties": {
-    "name": {"type": "string"},
-    "description": {"type": "string"},
-    "link": {"type": "string"},
-    "ingredients": {
-      "patternProperties": {
-        "^.*$": {
-          "properties": {
-            "name": {"type": "string"},
-            "description": {"type": "string"},
-            "link": {"type": "string"},
-            "ingredients": {
-              "type": "object",
-              "patternProperties": {
-                "^.*$": {
-                  "anyOf": [{"type": "object"}],
-                  "properties": {
-                    "quantity": {"type": "number"},
-                    "unit": {"type": "string"}
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "new_ingredients": {
-      "type": "array",
-      "items": {
-        "properties": {
-          "name": {"type": "string"},
-          "category": {"type": "string"},
-          "supermarket": {"type": "string"},
-          "quantity": {"type": "number"},
-          "unit": {"type": "string"}
-        }
-      }
-    }
-  }
-}
-</code></pre><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "name": "Pizza",
-  "description": "Supermarket pizza with home vegetables",
-  "link": "http://www.mypizza.com",
-  "ingredients": {
-    "-M9HqlJkjgu85S-HGbl58": {
-      "quantity": 2,
-      "unit": "g"
-    },
-    "-M9HqlUQnD7MS-DS53cKJ": {
-      "quantity": 5,
-      "unit": "cups"
-    },
-    "-M9HqlUQnD7MS-LKH4c8": {
-      "quantity": 7,
-      "unit": "hands"
-    },
-    "-M9HqlUQnHJGF-5KJHF4": {
-      "quantity": 4,
-      "unit": "piles"
-    }
-  },
-  "new_ingredients": [
-    {
-      "name": "Onion",
-      "category": "Vegetables/Fruits",
-      "supermarket": "aldi",
-      "quantity": 4,
-      "unit": "piles"
-    },
-    {
-      "name": "Tomato",
-      "category": "Vegetables/Fruits",
-      "supermarket": "aldi",
-      "quantity": 7,
-      "unit": "tons"
-    }
-  ]
-}</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "code": 400,
-  "message": "&#39;u&#39; is not of type &#39;array&#39;"
-}</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>message</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>code</strong>: <em><span class="required">required</span>(number)</em></li></ul><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
-  "code": 409,
-  "message": "The element already exists in the database"
 }</code></pre></div></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_recipes_summary"><span class="parent">/recipes</span>/summary</a> <span class="methods"><a href="#recipes_summary_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_recipes_summary" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#recipes_summary_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="recipes_summary_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/recipes</span>/summary</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#recipes_summary_post_request" data-toggle="tab">Request</a></li><li><a href="#recipes_summary_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="recipes_summary_post_request"><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>:</p><pre><code>{
   "type": "object",
   "properties": {

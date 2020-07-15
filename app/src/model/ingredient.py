@@ -52,7 +52,9 @@ class Ingredient:
     @staticmethod
     def update_ingredient_units(ingredient_id: str, new_unit: str):
         ingredient_unit_child = db.child("", INGREDIENTS_SUB_NODE_UNITS_REF_FORMAT.format(ingredient_id))
-        ingredient_unit_updated = list(set(ingredient_unit_child.get() + [new_unit]))
+        if isinstance(new_unit, str):
+            new_unit = [new_unit]
+        ingredient_unit_updated = list(set(ingredient_unit_child.get() + new_unit))
         ingredient_unit_child.set(ingredient_unit_updated)
 
     @staticmethod

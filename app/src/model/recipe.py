@@ -2,7 +2,7 @@ from app.src.model.supermarket import Supermarket
 from app.src.service import firebase
 from app.src.model.model_constants import RECIPES_NODE_REF, RECIPES_SUB_NODE_REF_FORMAT, RECIPE_INGREDIENT_UNIT_REF, \
     RECIPE_INGREDIENT_SUPERMARKET_REF, RECIPE_NEW_INGREDIENTS_REF, RECIPE_SUB_NODE_INGREDIENTS_REF, \
-    RECIPE_INGREDIENT_QUANTITY_REF
+    RECIPE_INGREDIENT_QUANTITY_REF, NEW_INGREDIENT_UNIT_REF, NEW_INGREDIENT_SUPERMARKET_REF
 from app.src.model.ingredient import Ingredient
 from app.src.model.unit import Unit
 from app.src.utils import value_collector, dict_generator
@@ -69,9 +69,24 @@ class Recipe:
         db.set(RECIPES_NODE_REF, recipe_dict)
         return recipe_dict
 
-    @staticmethod
-    def update_recipe(recipe_dict: dict):
-        db.update(RECIPES_NODE_REF, recipe_dict)
+    def update_recipe(self, recipe_dict: dict):
+        # Append new units and supermarkets to <ingredients>.<id>.<unit> and <ingredients>.<id>.<supermarket>
+        for recipe_id, recipes_values in recipe_dict.items():
+            for ingredient_id, ingredient_values in recipes_values.get(RECIPE_SUB_NODE_INGREDIENTS_REF).items():
+                self.ingredient.update_ingredient_units(ingredient_id,
+                                                        ingredient_values.get(RECIPE_INGREDIENT_UNIT_REF))
+                unit = ingredient_values.get(NEW_INGREDIENT_UNIT_REF)
+                supermarket = ingredient_values.get(NEW_INGREDIENT_SUPERMARKET_REF)
+
+                if unit and isinstance(unit, str):
+                    unit = [unit]
+                    self.unit.add_unit(unit)
+
+                if supermarket and isinstance(supermarket, str):
+                    supermarket = [supermarket]
+                    self.supermarket.add_supermarket(supermarket)
+
+        db.set(RECIPES_NODE_REF, recipe_dict)
         return recipe_dict
 
     @staticmethod
